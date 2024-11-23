@@ -1,7 +1,7 @@
 import {Sequelize , DataTypes} from "sequelize"
 import dbConfig from "../config/dbConfig"
 
-const sequelize = new Sequelize(dbConfig.db,dbConfig.password,dbConfig.username,{
+const sequelize = new Sequelize(dbConfig.db,dbConfig.username,dbConfig.password,{
     host : dbConfig.host,
     port : 3306,
     dialect : dbConfig.dialect,

@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const dbConfig_1 = __importDefault(require("../config/dbConfig"));
-const sequelize = new sequelize_1.Sequelize(dbConfig_1.default.db, dbConfig_1.default.password, dbConfig_1.default.username, {
+const sequelize = new sequelize_1.Sequelize(dbConfig_1.default.db, dbConfig_1.default.username, dbConfig_1.default.password, {
     host: dbConfig_1.default.host,
     port: 3306,
     dialect: dbConfig_1.default.dialect,
