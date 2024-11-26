@@ -4,7 +4,6 @@ import {
     Column,
     DataType
 } from "sequelize-typescript"
-import "reflect-metadata"
 
 @Table({
     tableName : "users",
