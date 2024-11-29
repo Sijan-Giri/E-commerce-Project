@@ -20,6 +20,38 @@ class AuthController{
             message : "User registered successfully"
         })
     }
+
+    public static async loginUser(req:Request,res:Response):Promise<void>{
+        const {email , password} = req.body;
+        if(!email || !password) {
+            res.status(400).json({
+                message : "Please provide email & password"
+            })
+            return
+        }
+        const [validateUser] = await User.findAll({
+            where : {
+                email : email
+            }
+        })
+        if(!validateUser) {
+            res.status(404).json({
+                message : "User not found with this email"
+            })
+            return
+        }
+        console.log(validateUser)
+        const isMatched = bcrypt.compareSync(password,validateUser.password)
+        if(!isMatched) {
+            res.status(400).json({
+                message : "Invalid password"
+            })
+            return
+        }
+        res.status(200).json({
+            message : "User logged in successfully"
+        })
+    }
 }
 
 export default AuthController
