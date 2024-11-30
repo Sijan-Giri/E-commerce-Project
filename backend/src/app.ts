@@ -8,6 +8,9 @@ app.use(express.json());
 
 import "./database/connection"
 import userRoute from "./route/userRoute"
+import adminSeeding from "./adminSeeder";
+
+adminSeeding()
 
 app.use("",userRoute)
 
