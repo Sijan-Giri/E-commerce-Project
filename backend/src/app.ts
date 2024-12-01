@@ -9,16 +9,18 @@ app.use(express.json());
 import "./database/connection"
 import userRoute from "./route/userRoute"
 import adminSeeding from "./adminSeeder";
+import productRoute from "./route/productRoute"
 
 adminSeeding()
 
 app.use("",userRoute)
+app.use("/admin/product",productRoute)
 
 app.get("/",(req:Request,res:Response) => {
     res.send("API is running...")
 })
 
-const PORT:number = 3000
+const PORT:number = 4000
 
 app.listen(PORT,() => {
     console.log(`Server started at ${PORT}...`)
