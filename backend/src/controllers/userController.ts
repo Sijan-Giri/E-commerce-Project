@@ -66,7 +66,7 @@ class AuthController{
             })
             return
         }
-        const token = jwt.sign({id : validateUser.id},"sijan",{
+        const token = jwt.sign({id : validateUser.id},process.env.SECRET_KEY as string,{
             expiresIn : "30d"
         })
         res.status(200).json({
