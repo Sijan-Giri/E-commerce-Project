@@ -1,8 +1,10 @@
-import { Request , Response } from "express";
+import { Response } from "express";
 import Product from "../model/productModel";
+import { AuthRequest } from "../middleware/authMiddleware";
 
 class ProductController{
-    public static async addProduct(req:Request , res:Response):Promise<void> {
+    public static async addProduct(req:AuthRequest , res:Response):Promise<void> {
+        const userId = req.user?.id
         const {productName,productDescription,productimageUrl,productPrice,productTotalStockQty} = req.body;
         let fileName;
         if(req.file) {
@@ -19,7 +21,8 @@ class ProductController{
             productDescription,
             productPrice,
             productTotalStockQty,
-            productimageUrl : fileName
+            productimageUrl : fileName,
+            UserId : userId
         })
         res.status(200).json({
             message : "Product created successfully"
