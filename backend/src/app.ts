@@ -10,6 +10,7 @@ import "./database/connection"
 import userRoute from "./route/userRoute"
 import adminSeeding from "./adminSeeder";
 import productRoute from "./route/productRoute"
+import categoryController from "./controllers/categoryController";
 
 adminSeeding()
 
@@ -23,5 +24,6 @@ app.get("/",(req:Request,res:Response) => {
 const PORT:number = 4000
 
 app.listen(PORT,() => {
+    categoryController.seedCategory()
     console.log(`Server started at ${PORT}...`)
 })
