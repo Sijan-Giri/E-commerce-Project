@@ -10,6 +10,7 @@ const adminSeeding = async():Promise<void> => {
     if(!data) {
        await User.create({
         email : "admin@gmail.com",
+        username : "Admin",
         password : bcrypt.hashSync("admin",8),
         role : "admin"
        })

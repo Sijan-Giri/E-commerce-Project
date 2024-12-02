@@ -1,4 +1,6 @@
 import {Sequelize} from "sequelize-typescript"
+import User from "../model/userModel"
+import Product from "../model/productModel"
 
 const sequelize = new Sequelize({
     database : process.env.DB_NAME,
@@ -14,12 +16,15 @@ sequelize.authenticate()
 .then(() => {
     console.log("Database connected successfully")
 })
-.catch((err) => [
+.catch((err) => {
     console.log("Something went wrong!",err)
-])
+})
 
 sequelize.sync({force : false}).then(() => {
     console.log("Synced !!")
 })
+
+User.hasMany(Product);
+Product.belongsTo(User)
 
 export default sequelize
