@@ -9,5 +9,6 @@ const upload = multer({storage : storage})
 
 router.route("/").post(authMiddleware.isAuthenticated,authMiddleware.restrictTo(Role.Admin),upload.single("image"),ProductController.addProduct)
 .get(errorHandler(ProductController.getAllProducts))
+router.route("/:id").get(errorHandler(ProductController.getSingleProduct)).delete(authMiddleware.isAuthenticated,authMiddleware.restrictTo(Role.Admin),errorHandler(ProductController.deleteProduct))
 
 export default router

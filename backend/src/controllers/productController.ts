@@ -59,6 +59,102 @@ class ProductController{
             })
         } 
     }
+
+    public static async getSingleProduct(req:AuthRequest , res:Response):Promise<void> {
+        const {id} = req.params;
+        if(!id) {
+            res.status(400).json({
+                message : "Please provide id"
+            })
+            return
+        }
+        const data = await Product.findAll({
+            where : {
+                id : id
+            },
+            include : [
+                {
+                    model : User,
+                    attributes : ["id","email","username"]
+                },
+                {
+                    model : Category,
+                    attributes : ["id","categoryName"]
+                }
+            ]
+        })
+        if(data.length === 0) {
+            res.status(404).json({
+                message : "No product found with this id"
+            })
+        }
+        else {
+            res.status(200).json({
+                message : "Product fetched successfully",
+                data : data
+            })
+        }
+    }
+
+    public static async deleteProduct(req:AuthRequest,res:Response):Promise<void> {
+        const {id} = req.params
+        if(!id) {
+            res.status(400).json({
+                message : "Please provide id"
+            })
+            return
+        }
+        const data = await Product.findAll({
+            where : {
+                id : id
+            }
+        })
+        if(data.length == 0) {
+            res.status(404).json({
+                message : "Product not found with this id"
+            })
+        }
+        else {
+            await Product.destroy({
+                where : {
+                    id : id
+                }
+            })
+            res.status(200).json({
+                message : "Product deleted successfully"
+            })
+        }
+    }
+
+    public static async updateProduct(req:AuthRequest,res:Response):Promise<void> {
+        const {id} = req.params;
+        const {productName , productPrice , productDescription , productimageUrl , productTotalStockQty} = req.body
+        if(!id) {
+            res.status(400).json({
+                message : "Please provide id"
+            })
+            return
+        }
+        if(!productName || !productPrice || !productDescription || !productTotalStockQty) {
+            res.status(400).json({
+                message : "Please provide productName , productPrice , productDescription , productTotalStockQty"
+            })
+            return
+        }
+        const data = await Product.findAll({
+            where : {
+                id : id
+            }
+        })
+        if(data.length == 0){
+            res.status(404).json({
+                message : "Product with this id not found"
+            })
+        }
+        // const updatedData = await Product.update({
+            
+        // })
+    }
 }
 
 export default ProductController
