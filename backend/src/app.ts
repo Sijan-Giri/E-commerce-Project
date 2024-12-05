@@ -11,11 +11,13 @@ import userRoute from "./route/userRoute"
 import adminSeeding from "./adminSeeder";
 import productRoute from "./route/productRoute"
 import categoryController from "./controllers/categoryController";
+import categoryRoute from "./route/categoryRoute"
 
 adminSeeding()
 
 app.use("",userRoute)
 app.use("/admin/product",productRoute)
+app.use("/admin/category",categoryRoute)
 
 app.get("/",(req:Request,res:Response) => {
     res.send("API is running...")
