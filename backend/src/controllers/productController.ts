@@ -151,9 +151,15 @@ class ProductController{
                 message : "Product with this id not found"
             })
         }
-        // const updatedData = await Product.update({
-            
-        // })
+        const updatedProduct = await Product.update({productName,productDescription,productPrice,productTotalStockQty},{
+            where : {
+                id : id
+            }
+        })
+        res.status(200).json({
+            message : "Product updated successfully",
+            data : updatedProduct
+        })
     }
 }
 

@@ -110,6 +110,32 @@ class CategoryController{
             })
         }
     }
+
+    async updateCategory(req:Request,res:Response):Promise<void> {
+        const {id} = req.params;
+        if(!id) {
+            res.status(400).json({
+                message : "Please provide id"
+            })
+            return
+        }
+        const {categoryName} = req.body;
+        if(!categoryName) {
+            res.status(400).json({
+                message : "Please provide categoryName"
+            })
+            return
+        }
+        const updatedCategory = await Category.update({categoryName},{
+            where : {
+                id : id
+            }
+        })
+        res.status(400).json({
+            message :  "Category updated successfully",
+            data : updatedCategory  
+        })
+    }
 }
 
 export default new CategoryController()
