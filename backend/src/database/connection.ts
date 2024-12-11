@@ -2,6 +2,7 @@ import {Sequelize} from "sequelize-typescript"
 import User from "../model/userModel"
 import Product from "../model/productModel"
 import Category from "../model/category"
+import Cart from "../model/cart"
 
 const sequelize = new Sequelize({
     database : process.env.DB_NAME,
@@ -30,5 +31,11 @@ Product.belongsTo(User);
 
 Category.hasMany(Product);
 Product.belongsTo(Category)
+
+User.hasMany(Cart);
+Cart.belongsTo(User);
+
+Product.hasMany(Cart);
+Cart.belongsTo(Product);
 
 export default sequelize
