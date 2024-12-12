@@ -1,8 +1,9 @@
 import express,{Router} from "express"
 import AuthController from "../controllers/userController"
+import errorHandler from "../services/catchAyncError"
 const router:Router = express.Router()
 
-router.route("/register").post(AuthController.registerUser)
-router.route("/login").post(AuthController.loginUser)
+router.route("/register").post(errorHandler(AuthController.registerUser))
+router.route("/login").post(errorHandler(AuthController.loginUser))
 
 export default router
