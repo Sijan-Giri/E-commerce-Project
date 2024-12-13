@@ -2,6 +2,7 @@ import e, {Request , Response} from "express";
 import { AuthRequest } from "../middleware/authMiddleware";
 import Cart from "../model/cart";
 import Product from "../model/productModel";
+import Category from "../model/category";
 
 class cartController{
     async addToCart(req:AuthRequest,res:Response):Promise<void>{
@@ -44,7 +45,12 @@ class cartController{
             },
             include : [
                 {
-                    model : Product
+                    model : Product,
+                    include : [
+                        {
+                            model : Category
+                        }
+                    ]
                 }
             ]
         })
@@ -59,6 +65,52 @@ class cartController{
                 data : cart
             })
         }
+    }
+
+    async deleteMyCartItems(req:AuthRequest,res:Response):Promise<void> {
+        const UserId = req.user?.id;
+        const {productId} = req.params;
+        const productExists = await Product.findByPk(productId)
+        if(!productExists) {
+            res.status(404).json({
+                message : "Product doesnot exists with that id"
+            })
+            return
+        }
+        await Cart.destroy({
+            where : {
+                UserId,
+                productId
+            }
+        })
+        res.status(200).json({
+            message : "Cart Item deleted successfully"
+        })
+    }
+
+    async UpdateMyCartItem(req:AuthRequest,res:Response):Promise<void>{
+        const UserId = req.user?.id;
+        const {productId} = req.params;
+        const {quantity} = req.body;
+        if(!quantity) {
+            res.status(400).json({
+                message : "Please provide quantity"
+            })
+            return
+        }
+        const cartData:any = await Cart.findOne({
+            where : {
+                UserId,
+                productId
+            }
+        })
+        cartData.quantity = quantity
+        await cartData.save();
+
+        res.status(200).json({
+            message : "Cart Item updated successfully",
+            data : cartData
+        })
     }
 }
 
