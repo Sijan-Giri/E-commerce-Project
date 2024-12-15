@@ -98,19 +98,26 @@ class cartController{
             })
             return
         }
-        const cartData:any = await Cart.findOne({
+        const cartData = await Cart.findOne({
             where : {
                 UserId,
                 productId
             }
         })
-        cartData.quantity = quantity
-        await cartData.save();
+        if(cartData) {
+            cartData.quantity = quantity
+            await cartData.save();
 
         res.status(200).json({
             message : "Cart Item updated successfully",
             data : cartData
         })
+        }
+        else {
+            res.status(404).json({
+                message : "No cart items found with this productId"
+            })
+        }
     }
 }
 
