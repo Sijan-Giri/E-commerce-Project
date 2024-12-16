@@ -40,3 +40,5 @@ class Order extends Model{
     })
     declare orderStatus : string
 }
+
+export default Order
