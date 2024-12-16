@@ -21,7 +21,7 @@ class Payment extends Model{
     declare paymentMethod : string;
 
     @Column({
-        type : DataType.ENUM("paid","upaid"),
+        type : DataType.ENUM("paid","unpaid"),
         defaultValue : "unpaid"
     })
 
