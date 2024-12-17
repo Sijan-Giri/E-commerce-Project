@@ -13,6 +13,7 @@ import productRoute from "./route/productRoute"
 import categoryController from "./controllers/categoryController";
 import categoryRoute from "./route/categoryRoute";
 import cartRoute from "./route/cartRoute"
+import orderRoute from "./route/orderRoute"
 
 adminSeeding()
 
@@ -20,6 +21,7 @@ app.use("",userRoute)
 app.use("/admin/product",productRoute)
 app.use("/admin/category",categoryRoute)
 app.use("/customer/cart",cartRoute)
+app.use("/customer/order",orderRoute)
 
 app.get("/",(req:Request,res:Response) => {
     res.send("API is running...")
