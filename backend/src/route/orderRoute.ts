@@ -6,6 +6,9 @@ import OrderController from "../controllers/orderController";
 const router:Router = Router();
 
 router.route("/")
-.post(authMiddleware.isAuthenticated,OrderController.createOrder)
+.post(authMiddleware.isAuthenticated,errorHandler(OrderController.createOrder))
+
+router.route("/verify")
+.post(authMiddleware.isAuthenticated,errorHandler(OrderController.verifyTransaction))
 
 export default router
