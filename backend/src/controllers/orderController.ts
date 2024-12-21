@@ -79,21 +79,15 @@ class OrderController{
             }
         })
         const data:TransactionVerificationResponse = response.data;
-        console.log(data)
+        console.log(data.status)
         if(data.status === TransactionStatus.COMPLETED) {
-            const order = await Order.findAll({
+            await Payment.update({paymentStatus : "paid"},{
                 where : {
-                    userId
-                },
-                include : [
-                    {
-                        model : Payment
-                    }
-                ]
+                    pidx : pidx
+                }
             })
             res.status(200).json({
-                message : "Payment Verified successfully",
-                data : order
+                message : "Payment Verified successfully"
             })
         }
         else {
