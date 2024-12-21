@@ -7,6 +7,8 @@ const router:Router = Router();
 
 router.route("/")
 .post(authMiddleware.isAuthenticated,errorHandler(OrderController.createOrder))
+.get(authMiddleware.isAuthenticated,errorHandler(OrderController.fetchMyOrders))
+.delete(authMiddleware.isAuthenticated,errorHandler(OrderController.cancelMyOrder))
 
 router.route("/verify")
 .post(authMiddleware.isAuthenticated,errorHandler(OrderController.verifyTransaction))
