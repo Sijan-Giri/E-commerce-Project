@@ -1,11 +1,15 @@
 import { Response } from "express";
 import { AuthRequest } from "../middleware/authMiddleware";
-import { KhaltiResponse, OrderData, OrderStatus, PaymentMethod, TransactionStatus, TransactionVerificationResponse } from "../types/orderTypes";
+import { KhaltiResponse, OrderData, OrderStatus, PaymentMethod, PaymentStatus, TransactionStatus, TransactionVerificationResponse } from "../types/orderTypes";
 import Order from "../model/order";
 import Payment from "../model/payment";
 import OrderDetails from "../model/orderDetails";
 import axios from "axios";
 import Product from "../model/productModel";
+
+export class ExtendedOrder extends Order{
+    declare paymentId : string | null
+}
 
 class OrderController{
     async createOrder(req:AuthRequest,res:Response):Promise<void> {
@@ -190,6 +194,64 @@ class OrderController{
                 message : "No orders found!"
             })
         }
+    }
+
+    async changeOrderStatus(req:AuthRequest,res:Response):Promise<void>{
+        const orderId = req.params.id;
+        if(!orderId) {
+            res.status(400).json({
+                message : "Please provide order id"
+            })
+        }
+        const orderStatus:OrderStatus = req.body.orderStatus;
+
+        if(!orderStatus) {
+            res.status(400).json({
+                message : "Please provide order status"
+            })
+            return
+        }
+
+        const orderStatuses = await Order.update({
+            orderStatus : orderStatus
+        },{
+            where : {
+                orderId
+            }
+        })
+        res.status(200).json({
+            message : "OrderStatus updated successfully",
+            data : orderStatuses
+        })
+    }
+
+    async changePaymentStatus(req:AuthRequest,res:Response):Promise<void>{
+        const orderId = req.params.id;
+        const paymentStatus:PaymentStatus = req.body.paymentStatus;
+        if(!orderId) {
+            res.status(400).json({
+                message : "Please provide order id"
+            })
+            return
+        }
+        if(!paymentStatus) {
+            res.status(400).json({
+                message : "Please provide paymentStatus"
+            })
+            return
+        }
+        const order = await Order.findByPk(orderId);
+        const extendedOrder:ExtendedOrder = order as ExtendedOrder
+        await Order.update({
+            paymentStatus : paymentStatus
+        },{
+            where : {
+                id : extendedOrder.paymentId
+            }
+        })
+        res.status(200).json({
+            message : "Payment Status updated successfully"
+        })
     }
 }
 

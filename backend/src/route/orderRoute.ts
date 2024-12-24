@@ -7,8 +7,13 @@ const router:Router = Router();
 
 router.route("/")
 .post(authMiddleware.isAuthenticated,errorHandler(OrderController.createOrder))
+
+router.route("/customer/")
 .get(authMiddleware.isAuthenticated,errorHandler(OrderController.fetchMyOrders))
-.delete(authMiddleware.isAuthenticated,errorHandler(OrderController.cancelMyOrder))
+
+router.route("/customer/:id")
+.patch(authMiddleware.isAuthenticated,errorHandler(OrderController.cancelMyOrder))
+.get(authMiddleware.isAuthenticated,errorHandler(OrderController.fetchOrderDetails))
 
 router.route("/verify")
 .post(authMiddleware.isAuthenticated,errorHandler(OrderController.verifyTransaction))
