@@ -1,5 +1,5 @@
 import { Router } from "express";
-import authMiddleware from "../middleware/authMiddleware";
+import authMiddleware, { Role } from "../middleware/authMiddleware";
 import errorHandler from "../services/catchAyncError";
 import OrderController from "../controllers/orderController";
 
@@ -17,5 +17,13 @@ router.route("/customer/:id")
 
 router.route("/verify")
 .post(authMiddleware.isAuthenticated,errorHandler(OrderController.verifyTransaction))
+
+router.route("/admin/payment/:id")
+.patch(authMiddleware.isAuthenticated,authMiddleware.restrictTo(Role.Admin),errorHandler(OrderController.changePaymentStatus))
+
+router.route("/admin/:id")
+.patch(authMiddleware.isAuthenticated,authMiddleware.restrictTo(Role.Admin),errorHandler(OrderController.changeOrderStatus))
+.delete(authMiddleware.isAuthenticated,authMiddleware.restrictTo(Role.Admin),errorHandler(OrderController.deleteOrder))
+
 
 export default router

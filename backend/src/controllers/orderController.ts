@@ -15,7 +15,7 @@ class OrderController{
     async createOrder(req:AuthRequest,res:Response):Promise<void> {
         const userId = req.user?.id;
          const {phoneNumber , shippingAddress , totalAmount , paymentDetails , items}:OrderData = req.body;
-        if(!phoneNumber || !shippingAddress || !totalAmount || !paymentDetails || !paymentDetails.paymentMethod || items.length == 0) {
+        if(!phoneNumber || !shippingAddress || !totalAmount || !paymentDetails || !paymentDetails.paymentMethod || items.length == 0 || !items) {
             res.status(400).json({
                 message : "Please provide phoneNumber , shippingAddress , totalAmount , paymentDetails , items"
             })
@@ -135,16 +135,15 @@ class OrderController{
                 message : "Please provide orderId"
             })
         }
-        const orderDetails = await OrderDetails.findAll({
+        const orderDetails = await OrderDetails.findOne({
             where : {
-                userId,
                 orderId
             },
             include : [{
                 model : Product
             }]
         }) 
-        if(orderDetails.length > 0) {
+        if(orderDetails) {
             res.status(200).json({
                 message : "Orders details fetched successfully",
                 data : orderDetails
@@ -165,14 +164,14 @@ class OrderController{
             })
             return
         }
-        const order:any = await Order.findAll({
+        const order:any = await Order.findOne({
             where : {
                 userId,
-                orderId
+                id : orderId
             }
         })
-        if(order.length > 0) {
-            if(order.orderStatus === OrderStatus.ONTHEWAY || OrderStatus.PREPARATION) {
+        if(order) {
+            if(order.orderStatus === OrderStatus.ONTHEWAY || order.orderStatus === OrderStatus.PREPARATION) {
                 res.status(400).json({
                     message : "You cannot cancel the order when it is in preparation & onTheWay state"
                 })
@@ -181,7 +180,7 @@ class OrderController{
             const updatedOrder = await Order.update({orderStatus : OrderStatus.CANCELLED},{
                 where : {
                     userId,
-                    orderId
+                    id : orderId
                 }
             })
             res.status(200).json({
@@ -216,7 +215,7 @@ class OrderController{
             orderStatus : orderStatus
         },{
             where : {
-                orderId
+                id : orderId
             }
         })
         res.status(200).json({
@@ -252,6 +251,43 @@ class OrderController{
         res.status(200).json({
             message : "Payment Status updated successfully"
         })
+    }
+    async deleteOrder(req:AuthRequest,res:Response):Promise<void>{
+        const orderId = req.params.id;
+        if(!orderId) {
+            res.status(400).json({
+                message : "Please provide order id"
+            })
+            return
+        }
+        const order = await Order.findByPk(orderId);
+        const extendedOrder:ExtendedOrder = order as ExtendedOrder
+
+        if(order) {
+            await Order.destroy({
+                where : {
+                    id : orderId
+                }
+            })
+            await OrderDetails.destroy({
+                where : {
+                    orderId
+                }
+            })
+            await Payment.destroy({
+                where : {
+                    id : extendedOrder.paymentId
+                }
+            })
+            res.status(200).json({
+                message : "Order deleted successfully"
+            })
+        }
+        else {
+            res.status(404).json({
+                message : "Orders not found!!"
+            })
+        }
     }
 }
 
