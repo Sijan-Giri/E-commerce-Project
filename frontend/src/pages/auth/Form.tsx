@@ -15,7 +15,7 @@ const Form = ({text}:any) => {
                   <p>Enter your information to {text}</p>
                 </div>
                 <div>
-                  {
+                  {/* {
                     text = "Register" && <div className="flex -mx-3">
                     <div className="w-full px-3 mb-5">
                       <label className="text-xs font-semibold px-1">Username</label>
@@ -31,7 +31,7 @@ const Form = ({text}:any) => {
                       </div>
                     </div>
                   </div>
-                  }
+                  } */}
                   <div className="flex -mx-3">
                     <div className="w-full px-3 mb-5">
                       <label className="text-xs font-semibold px-1">Email</label>
