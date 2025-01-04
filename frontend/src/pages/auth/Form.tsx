@@ -1,4 +1,28 @@
-const Form = ({text}) => {
+import { Link } from "react-router-dom";
+import { PropsType, UserDataType } from "./types";
+import { ChangeEvent, FormEvent, useState } from "react";
+
+const Form:React.FC<PropsType> = ({text , onSubmit}) => {
+
+  const [userData , setUserData] = useState<UserDataType>({
+    username : "",
+    email : "",
+    password : ""
+  })
+
+  const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
+    const {name , value} = e.target;
+    setUserData({
+      ...userData,
+      [name] : value
+    })
+  }
+
+  const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit(userData)
+  }
+
     return (
       <>
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
@@ -9,7 +33,8 @@ const Form = ({text}) => {
             <div className="md:flex w-full">
               <div className="hidden md:block w-1/2 bg-indigo-500 py-10 px-10">
               </div>
-              <div className="w-full md:w-1/2 py-10 px-5 md:px-10">
+             <form onSubmit={handleSubmit}>
+             <div className="w-full md:w-1/2 py-10 px-5 md:px-10">
                 <div className="text-center mb-10">
                   <h1 className="font-bold text-3xl text-gray-900">{text}</h1>
                   <p>Enter your information to {text}</p>
@@ -26,9 +51,11 @@ const Form = ({text}) => {
                           <i className="mdi mdi-email-outline text-gray-400 text-lg"></i>
                         </div>
                         <input
-                          type="email"
+                        name="username" 
+                          type="username"
                           className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                           placeholder="Enter your username"
+                          onChange={handleChange}
                         />
                       </div>
                     </div>
@@ -41,9 +68,11 @@ const Form = ({text}) => {
                           <i className="mdi mdi-email-outline text-gray-400 text-lg"></i>
                         </div>
                         <input
+                        name="email"
                           type="email"
                           className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                           placeholder="example@example.com"
+                          onChange={handleChange}
                         />
                       </div>
                     </div>
@@ -57,8 +86,10 @@ const Form = ({text}) => {
                         </div>
                         <input
                           type="password"
+                          name="password"
                           className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                           placeholder="Enter your password"
+                          onChange={handleChange}
                         />
                       </div>
                     </div>
@@ -74,9 +105,11 @@ const Form = ({text}) => {
                           <i className="mdi mdi-email-outline text-gray-400 text-lg"></i>
                         </div>
                         <input
+                        name="email"
                           type="email"
                           className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                           placeholder="example@example.com"
+                          onChange={handleChange}
                         />
                       </div>
                     </div>
@@ -89,9 +122,11 @@ const Form = ({text}) => {
                           <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
                         </div>
                         <input
+                        name="password"
                           type="password"
                           className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                           placeholder="Enter your password"
+                          onChange={handleChange}
                         />
                       </div>
                     </div>
@@ -109,16 +144,23 @@ const Form = ({text}) => {
                       </button>
                     </div>
                   </div>
-                  <div className="text-center mt-4">
+                  {
+                    text == "Register" && (
+                      <>
+                      <div className="text-center mt-4">
                     <p className="text-sm text-gray-500">
                       Already have an account?{" "}
-                      <a href="#" className="text-indigo-500 font-semibold">
+                      <Link to="/login"><a className="text-indigo-500 font-semibold">
                         Login here
-                      </a>
+                      </a></Link>
                     </p>
                   </div>
+                      </>
+                    )
+                  }
                 </div>
               </div>
+             </form>
             </div>
           </div>
         </div>

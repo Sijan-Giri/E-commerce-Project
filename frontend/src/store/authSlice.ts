@@ -51,8 +51,8 @@ const authSlice = createSlice({
 export const {setUser , setStatus} = authSlice.actions;
 export default authSlice.reducer
 
-export function register(data:RegisterData) {
-    return async function registerThunk(dispatch:any) {
+export function register(data:RegisterData):Promise<> {
+    return async function registerThunk(dispatch:any):Promise<void> {
         try {
             const response = await API.post("/register",data);
         if(response.status === 200) {
