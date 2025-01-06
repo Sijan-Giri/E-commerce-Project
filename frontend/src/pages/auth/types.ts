@@ -8,3 +8,14 @@ export interface PropsType{
     email : string,
     password : string
   }
+
+  export interface UserLoginDataType{
+    email : string,
+    password : string
+  }
+
+  export enum Status{
+    LOADING = "loading",
+    SUCCESS = "success",
+    ERROR = "error"
+}

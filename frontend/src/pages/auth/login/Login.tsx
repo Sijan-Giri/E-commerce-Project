@@ -1,15 +1,27 @@
-import { useDispatch } from "react-redux"
 import Form from "../Form"
-import { UserDataType } from "../types";
-import { login } from "../../../store/authSlice";
+import { Status, UserLoginDataType } from "../types";
+import { login, setStatus } from "../../../store/authSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Login = () => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const {status} = useAppSelector((state) => state.auth)
+  const navigate = useNavigate()
 
-  const handleLogin = (data:UserDataType) => {
+  const handleLogin = (data:UserLoginDataType) => {
     dispatch(login(data))
   }
+
+    useEffect(() => {
+      if(status == Status.SUCCESS) {
+        navigate("/")
+        dispatch(setStatus(Status.LOADING))
+      }
+    },[status])
+
 
   return (
     <>

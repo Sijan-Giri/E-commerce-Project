@@ -1,5 +1,6 @@
 import { createSlice , PayloadAction } from "@reduxjs/toolkit";
 import { API } from "../http";
+import { Status } from "../pages/auth/types";
 
 interface RegisterData{
     username : string,
@@ -19,12 +20,6 @@ interface User{
     token : string
 }
 
-export enum Status{
-    LOADING = "loading",
-    SUCCESS = "success",
-    ERROR = "error"
-}
-
 interface AuthState{
     user : User,
     status : string
@@ -42,13 +37,16 @@ const authSlice = createSlice({
         setUser(state:AuthState,action:PayloadAction<User>) {
             state.user = action.payload
         },
-        setStatus(state:AuthState,action:PayloadAction<string>) {
+        setStatus(state:AuthState,action:PayloadAction<Status>) {
             state.status = action.payload;
-        }
+        },
+        setToken(state:AuthState,action:PayloadAction<string>) {
+            state.user.token = action.payload
+        } 
     }
 })
 
-export const {setUser , setStatus} = authSlice.actions;
+export const {setUser , setStatus , setToken} = authSlice.actions;
 export default authSlice.reducer
 
 export function register(data:RegisterData) {
@@ -73,7 +71,10 @@ export function login(data:LoginData){
         try {
             const response = await API.post("http://localhost:4000/login",data);
         if(response.status === 200) {
+            const token = response.data.token
             dispatch(setStatus(Status.SUCCESS));
+            dispatch(setToken(response.data.token));
+            localStorage.setItem("token",token)
         }
         else {
             dispatch(setStatus(Status.ERROR))
