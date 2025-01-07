@@ -1,6 +1,27 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../../../store/hooks"
+import { setToken } from "../../../store/authSlice";
+import { useEffect } from "react";
 
 const Navbar = () => {
+
+  const {user} = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    dispatch(setToken(""));
+    navigate("/login")
+  }
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if(storedToken && !user.token) {
+      dispatch(setToken(storedToken))
+    }
+  },[dispatch,user.token])
+ 
   return (
     <>
     <nav className="py-5 flex justify-between border-b border-opacity-20 px-6">
@@ -73,12 +94,24 @@ const Navbar = () => {
                   ></path>
                 </svg>
               </div>
-              <Link to="/register"><h1 style={{ backgroundColor: "#0ED3CF" }} className="py-3 px-3 text-white font-bold rounded-lg">
+              {
+                user.token ? (
+                  <>
+                  <h1 style={{ backgroundColor: "#0ED3CF" }} className="py-3 px-3 text-white font-bold rounded-lg" onClick={handleLogout}>
+                Log Out
+              </h1>
+                  </>
+                ) : (
+                  <>
+                  <Link to="/register"><h1 style={{ backgroundColor: "#0ED3CF" }} className="py-3 px-3 text-white font-bold rounded-lg">
                 Register
               </h1></Link>
               <Link to="/login"><h1 style={{ backgroundColor: "#0ED3CF" }} className="py-3 px-3 text-white font-bold rounded-lg">
                 Login
               </h1></Link>
+                  </>
+                )
+              }
               <div>
                 <img
                   className="w-10 h-10 rounded-full"
