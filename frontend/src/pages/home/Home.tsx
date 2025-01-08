@@ -8,15 +8,14 @@ const Home = () => {
             <Navbar />
           <div className="lg:flex pr-6 items-center lg:text-left w-full justify-between mt-12 text-center">
             <div className="pl-6">
-              <h1 className="text-white text-4xl">
-                A <span className="font-bold">free repository</span> for community <br /> components using{" "}
-                <span style={{ color: "#0ED3CF" }}>TailwindCSS</span>
-              </h1>
-              <p className="text-white text-lg mt-4">
-                Open source Tailwind UI components and templates to <br />
-                bootstrap your new apps, projects or landing sites!
-              </p>
-  
+            <h1 className="text-white text-4xl">
+            A <span className="font-bold">modern e-commerce</span> platform for <br /> 
+            seamless shopping experiences
+          </h1>
+          <p className="text-white text-lg mt-4">
+            Discover a wide range of products with a smooth and intuitive shopping interface, <br />
+            designed to enhance your online store’s performance and user experience.
+          </p>
               <div className="flex p-2 items-center lg:max-w-lg mt-6 px-2 border rounded-lg border-opacity-20">
                 <input className="bg-gray-900 outline-none text-white w-full ml-4" type="text" placeholder="Search Components" />
                 <div className="bg-gray-900">

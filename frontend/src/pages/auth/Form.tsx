@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { PropsType, UserDataType } from "./types";
+import { PropsType, UserDataType } from "../../types/types";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 const Form: React.FC<PropsType> = ({ text, onSubmit }) => {

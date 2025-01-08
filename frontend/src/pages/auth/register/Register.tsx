@@ -1,6 +1,6 @@
 import Form from "../Form"
 import { register, setStatus } from "../../../store/authSlice"
-import { Status, UserDataType } from "../types"
+import { Status, UserDataType } from "../../../types/types"
 import { useAppDispatch, useAppSelector } from "../../../store/hooks"
 import { useNavigate } from "react-router-dom"
 

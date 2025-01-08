@@ -1,5 +1,5 @@
 import Form from "../Form"
-import { Status, UserLoginDataType } from "../types";
+import { Status, UserLoginDataType } from "../../../types/types";
 import { login, setStatus } from "../../../store/authSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { useNavigate } from "react-router-dom";
