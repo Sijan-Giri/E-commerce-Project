@@ -13,6 +13,7 @@ interface CategoryTypes {
 
 export interface Product{
     id: string,
+    productName : string,
     productPrice : number,
     productDescription : string,
     productTotalStockQty : number,
@@ -26,5 +27,6 @@ export interface Product{
 
 export interface ProductState{
     product : Product[],
-    status : Status
+    status : Status,
+    singleProduct : Product | null
 }

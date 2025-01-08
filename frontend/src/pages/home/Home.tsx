@@ -1,7 +1,18 @@
+import { useEffect } from "react";
 import Card from "../../globals/components/card/Card";
 import Navbar from "../../globals/components/navbar/Navbar";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { fetchProducts } from "../../store/productSlice";
 
 const Home = () => {
+
+  const dispatch = useAppDispatch()
+  const {product:products} = useAppSelector((state) => state.product)
+
+  useEffect(() => {
+    dispatch(fetchProducts())
+  },[])
+
     return (
       <>
         <header className="min-h-screen bg-gray-900 pb-32">
@@ -43,9 +54,15 @@ const Home = () => {
         My Products
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
-        <Card />
-        <Card />
-        <Card />
+        {
+          products.length > 0 && products.map((product) => {
+            return (
+              <>
+              <Card key={product.id} product={product}/>
+              </>
+            )
+          })
+        }
       </div>
     </div>
       </>

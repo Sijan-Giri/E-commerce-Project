@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from './pages/home/Home'
 import Register from './pages/auth/register/Register'
 import Login from './pages/auth/login/Login'
+import CardDetail from './globals/components/cardDetail/CardDetail'
 
 function App() {
 
@@ -12,11 +13,10 @@ function App() {
     <Provider store={store}>
     <BrowserRouter>
     <Routes>
-
     <Route path='/' element={<Home />} />
     <Route path='register' element={<Register />} />
     <Route path='login' element={<Login />} />
-
+    <Route path='/cardDetails/:id' element={<CardDetail />}/>
     </Routes>
     </BrowserRouter>
     </Provider>
