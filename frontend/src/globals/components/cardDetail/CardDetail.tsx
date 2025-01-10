@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import Navbar from "../navbar/Navbar";
 import { fetchProduct } from "../../../store/productSlice";
 import { useParams } from "react-router-dom";
+import { addToCart } from "../../../store/cartSlice";
 
 const CardDetail = () => {
 
@@ -15,6 +16,12 @@ const CardDetail = () => {
             dispatch(fetchProduct(id))
         }
     },[])
+
+    const handleAddToCart = () => {
+      if(id && singleProduct) {
+        dispatch(addToCart(id))
+      }
+    }
 
   return (
     <>
@@ -108,7 +115,7 @@ const CardDetail = () => {
                 />
               </div>
 
-              <div className="flex space-x-4 mb-6">
+              <div className="flex space-x-4 mb-6" onClick={handleAddToCart}>
                 <button className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -125,23 +132,6 @@ const CardDetail = () => {
                     />
                   </svg>
                   Add to Cart
-                </button>
-                <button className="bg-gray-200 flex gap-2 items-center text-gray-800 px-6 py-2 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15.75 19.5c0 2.273-1.977 4.125-4.125 4.125-2.273 0-4.125-1.977-4.125-4.125 0-2.273 1.977-4.125 4.125-4.125 2.273 0 4.125 1.977 4.125 4.125zM8.25 7.5a2.25 2.25 0 1 1 4.5 0 2.25 2.25 0 0 1-4.5 0zM18 18H6l-1.5-9h15l-1.5 9z"
-                    />
-                  </svg>
-                  Add to Wishlist
                 </button>
               </div>
             </div>

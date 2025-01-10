@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CartState , CartItem } from "../types/cartTypes";
 import { Status } from "../types/types";
 import { AppDispatch } from "./store";
-import { API } from "../http";
+import { AuthApi } from "../http";
 
 const initialState:CartState = {
     items : [],
@@ -25,13 +25,23 @@ const cartSlice = createSlice({
 export const {setItems , setStatus} = cartSlice.actions
 export default cartSlice.reducer
 
-export function addToCart() {
+export function addToCart(ProductId:string) {
     return async function addToCartThunk(dispatch:AppDispatch) {
         dispatch(setStatus(Status.LOADING));
         try {
-            const response = await API.post("")
+            const response = await AuthApi.post("/customer/cart",{
+                ProductId,
+                quantity : 1
+            })
+            if(response.status == 200) {
+                dispatch(setStatus(Status.SUCCESS));
+                dispatch(setItems(response.data.data))
+            }
+            else{
+                dispatch(setStatus(Status.ERROR))
+            }
         } catch (error) {
-            
+            dispatch(setStatus(Status.ERROR))
         }
     }
 }
