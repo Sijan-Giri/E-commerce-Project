@@ -42,9 +42,9 @@ const Navbar = () => {
               <div className="hidden lg:block">
                 <ul className="flex items-center space-x-6">
                   <li>
-                    <a style={{ color: "#0ED3CF" }} href="#" className="font-bold">
+                    <Link to="/"><a style={{ color: "#0ED3CF" }} className="font-bold">
                       Home
-                    </a>
+                    </a></Link>
                   </li>
                   <li>
                     <a href="#" className="text-white flex items-center">
@@ -97,7 +97,10 @@ const Navbar = () => {
               {
                 user.token ? (
                   <>
-                  <h1 style={{ backgroundColor: "#0ED3CF" }} className="py-3 px-3 text-white font-bold rounded-lg" onClick={handleLogout}>
+                  <h1 style={{ backgroundColor: "#0ED3CF" }} className="py-3 px-3 text-white font-bold rounded-lg">
+                  Cart
+              </h1>
+              <h1 style={{ backgroundColor: "#0ED3CF" }} className="py-3 px-3 text-white font-bold rounded-lg" onClick={handleLogout}>
                 Log Out
               </h1>
                   </>
