@@ -45,3 +45,21 @@ export function addToCart(ProductId:string) {
         }
     }
 }
+
+export function fetchCartItems() {
+    return async function fetchCartItemsThunk(dispatch:AppDispatch) {
+        dispatch(setStatus(Status.LOADING));
+        try {
+            const response = await AuthApi.get("/customer/cart");
+            if(response.status == 200) {
+                dispatch(setStatus(Status.SUCCESS));
+                dispatch(setItems(response.data.data))
+            }
+            else{
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}

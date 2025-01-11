@@ -2,17 +2,19 @@ import { Link, useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../../store/hooks"
 import { setToken } from "../../../store/authSlice";
 import { useEffect } from "react";
+import { fetchCartItems } from "../../../store/cartSlice";
 
 const Navbar = () => {
 
   const {user} = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const {items} = useAppSelector((state) => state.cart)
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     dispatch(setToken(""));
-    navigate("/login")
+    navigate("/login");
   }
 
   useEffect(() => {
@@ -20,6 +22,7 @@ const Navbar = () => {
     if(storedToken && !user.token) {
       dispatch(setToken(storedToken))
     }
+    dispatch(fetchCartItems())
   },[dispatch,user.token])
  
   return (
@@ -97,9 +100,12 @@ const Navbar = () => {
               {
                 user.token ? (
                   <>
-                  <h1 style={{ backgroundColor: "#0ED3CF" }} className="py-3 px-3 text-white font-bold rounded-lg">
+                  <h1 style={{ backgroundColor: "#0ED3CF" }} className="py-3 px-3 text-white font-bold rounded-lg relative">
                   Cart
-              </h1>
+                  <sub className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
+                    {items.length}
+                  </sub>
+                </h1>
               <h1 style={{ backgroundColor: "#0ED3CF" }} className="py-3 px-3 text-white font-bold rounded-lg" onClick={handleLogout}>
                 Log Out
               </h1>
