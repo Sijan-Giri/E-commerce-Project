@@ -100,12 +100,12 @@ const Navbar = () => {
               {
                 user.token ? (
                   <>
-                  <h1 style={{ backgroundColor: "#0ED3CF" }} className="py-3 px-3 text-white font-bold rounded-lg relative">
+                  <Link to="/cart"><h1 style={{ backgroundColor: "#0ED3CF" }} className="py-3 px-3 text-white font-bold rounded-lg relative">
                   Cart
                   <sub className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
                     {items.length}
                   </sub>
-                </h1>
+                </h1></Link>
               <h1 style={{ backgroundColor: "#0ED3CF" }} className="py-3 px-3 text-white font-bold rounded-lg" onClick={handleLogout}>
                 Log Out
               </h1>

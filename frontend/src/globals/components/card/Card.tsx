@@ -51,7 +51,7 @@ const Card: React.FC<CardProps> = ({ product }) => {
 
 <div className="p-6 pt-3">
   <button className="w-full rounded-lg bg-gradient-to-r from-pink-500 to-pink-400 py-3.5 text-white font-bold text-sm uppercase shadow-md hover:shadow-lg transition-all ease-in-out duration-300 transform hover:scale-105">
-    Add to Cart
+    Explore More
   </button>
 </div>
 </div>
