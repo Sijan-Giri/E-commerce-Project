@@ -14,6 +14,9 @@ const Cart = () => {
             dispatch(updateCartItem( productId, quantity ));
     };
 
+    const totalItemInCart = items.reduce((total,item) => item?.quantity + total,0);
+    const totalPriceInCart = items.reduce((total,item) => item?.Product?.productPrice * item?.quantity + total,0)
+
     return (
         <>
             <Navbar />
@@ -194,37 +197,27 @@ const Cart = () => {
                                     <div className="space-y-2">
                                         <dl className="flex items-center justify-between gap-4">
                                             <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-                                                Original price
+                                                Total Quantity
                                             </dt>
                                             <dd className="text-base font-medium text-gray-900 dark:text-white">
-                                                $7,592.00
+                                                {totalItemInCart}
                                             </dd>
                                         </dl>
 
                                         <dl className="flex items-center justify-between gap-4">
                                             <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-                                                Savings
+                                                Total Price
                                             </dt>
                                             <dd className="text-base font-medium text-green-600">
-                                                -$299.00
+                                                Rs. {totalPriceInCart}
                                             </dd>
                                         </dl>
-
                                         <dl className="flex items-center justify-between gap-4">
                                             <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-                                                Store Pickup
+                                                Shipping
                                             </dt>
                                             <dd className="text-base font-medium text-gray-900 dark:text-white">
-                                                $99
-                                            </dd>
-                                        </dl>
-
-                                        <dl className="flex items-center justify-between gap-4">
-                                            <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-                                                Tax
-                                            </dt>
-                                            <dd className="text-base font-medium text-gray-900 dark:text-white">
-                                                $799
+                                                Rs. 100
                                             </dd>
                                         </dl>
                                     </div>
@@ -234,46 +227,19 @@ const Cart = () => {
                                             Total
                                         </dt>
                                         <dd className="text-base font-bold text-gray-900 dark:text-white">
-                                            $8,191.00
+                                            Rs. {totalPriceInCart + 100}
                                         </dd>
                                     </dl>
                                 </div>
 
                                 <a
-                                    href="#"
-                                    className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                                >
-                                    Proceed to Checkout
-                                </a>
+    className="flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-6 py-3 text-sm font-bold text-white hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 focus:outline-none focus:ring-4 focus:ring-indigo-300 dark:bg-gradient-to-r dark:from-indigo-700 dark:via-purple-700 dark:to-pink-700 dark:hover:from-indigo-800 dark:hover:via-purple-800 dark:hover:to-pink-800 dark:focus:ring-indigo-600 transition-all duration-300 ease-in-out shadow-lg transform hover:scale-105"
+>
+    Proceed to Checkout
+</a>
 
-                                <div className="flex items-center justify-center gap-2">
-                                    <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                                        {" "}
-                                        or{" "}
-                                    </span>
-                                    <a
-                                        href="#"
-                                        title=""
-                                        className="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500"
-                                    >
-                                        Continue Shopping
-                                        <svg
-                                            className="h-5 w-5"
-                                            aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                stroke="currentColor"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="2"
-                                                d="M19 12H5m14 0-4 4m4-4-4-4"
-                                            />
-                                        </svg>
-                                    </a>
-                                </div>
+
+
                             </div>
                         </div>
                     </div>
