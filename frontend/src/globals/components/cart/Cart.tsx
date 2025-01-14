@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { deleteCartItem, updateCartItem } from "../../../store/cartSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import Navbar from "../navbar/Navbar";
@@ -231,15 +232,11 @@ const Cart = () => {
                                         </dd>
                                     </dl>
                                 </div>
-
-                                <a
-    className="flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-6 py-3 text-sm font-bold text-white hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 focus:outline-none focus:ring-4 focus:ring-indigo-300 dark:bg-gradient-to-r dark:from-indigo-700 dark:via-purple-700 dark:to-pink-700 dark:hover:from-indigo-800 dark:hover:via-purple-800 dark:hover:to-pink-800 dark:focus:ring-indigo-600 transition-all duration-300 ease-in-out shadow-lg transform hover:scale-105"
->
-    Proceed to Checkout
-</a>
-
-
-
+                               <Link to="/checkout"> <a
+                                className="flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-6 py-3 text-sm font-bold text-white hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 focus:outline-none focus:ring-4 focus:ring-indigo-300 dark:bg-gradient-to-r dark:from-indigo-700 dark:via-purple-700 dark:to-pink-700 dark:hover:from-indigo-800 dark:hover:via-purple-800 dark:hover:to-pink-800 dark:focus:ring-indigo-600 transition-all duration-300 ease-in-out shadow-lg transform hover:scale-105"
+                            >
+                                Proceed to Checkout
+                            </a></Link>
                             </div>
                         </div>
                     </div>
