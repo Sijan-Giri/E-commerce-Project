@@ -1,12 +1,14 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import Navbar from "../../globals/components/navbar/Navbar"
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { ItemDetails, OrderData, PaymentMethod } from "../../types/checkoutTypes";
+import { orderItem } from "../../store/checkoutSlice";
 
 const Checkout = () => {
 
   const [paymentMethod , setPaymentMethod] = useState<PaymentMethod>(PaymentMethod.COD)
     const {items} = useAppSelector((state) => state.cart)
+    const dispatch = useAppDispatch();
 
     const [data , setData] = useState<OrderData>({
       phoneNumber : "",
@@ -15,7 +17,7 @@ const Checkout = () => {
       paymentDetails : {
         paymentMethod : paymentMethod
       },
-      item : []
+      items : []
     })
 
     const handlePaymentMethod = (e:ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +38,11 @@ const Checkout = () => {
       })
     }
 
+    const totalAmount = (items && Array.isArray(items)) 
+   ? items.reduce((total, item) => item?.Product?.productPrice * item?.quantity + total, 0)
+   : 0;
+
+
     const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const itemData : ItemDetails[] = items?.map((item) => {
@@ -43,16 +50,16 @@ const Checkout = () => {
         productId : item?.Product?.id ,
         quantity : item?.quantity
        }
-      })
-      const totalAmount = items?.reduce((total,item) => item?.Product?.productPrice * item?.quantity + total,0) 
+      }) 
 
       const orderData = {
         ...data,
-        item : itemData,
+        items : itemData,
         totalAmount
       }
 
-      console.log(orderData)
+      dispatch(orderItem(orderData))
+      
     }
 
   return (
@@ -212,16 +219,16 @@ const Checkout = () => {
               <div className="mt-6 border-t border-b py-2">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-gray-900">Subtotal</p>
-                  <p className="font-semibold text-gray-900">Rs 500</p>
+                  <p className="font-semibold text-gray-900">Rs {totalAmount}</p>
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-gray-900">Shipping</p>
-                  <p className="font-semibold text-gray-900">Rs 50</p>
+                  <p className="font-semibold text-gray-900">Rs 100</p>
                 </div>
               </div>
               <div className="mt-6 flex items-center justify-between">
                 <p className="text-sm font-medium text-gray-900">Total</p>
-                <p className="text-2xl font-semibold text-gray-900">Rs 550</p>
+                <p className="text-2xl font-semibold text-gray-900">Rs {totalAmount + 100}</p>
               </div>
             </div>
             {

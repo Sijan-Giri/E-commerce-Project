@@ -33,8 +33,10 @@ class OrderController{
             paymentMethod : paymentDetails.paymentMethod
         })
 
+        let orderResponseData;
+
         for(var i = 0 ; i<items.length ; i++) {
-            await OrderDetails.create({
+            orderResponseData = await OrderDetails.create({
                 productId : items[i].productId,
                 quantity : items[i].quantity,
                 orderId : orderData.id
@@ -64,7 +66,8 @@ class OrderController{
         }
         else {
             res.status(200).json({
-                message : "Order placed successfully"
+                message : "Order placed successfully",
+                data : orderResponseData
             })
         }
     }
