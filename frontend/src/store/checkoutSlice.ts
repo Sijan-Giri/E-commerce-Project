@@ -7,7 +7,7 @@ import { AuthApi } from "../http";
 const initialState:OrderResponseData = {
     items : [],
     status : Status.LOADING,
-    khalti : null 
+    khaltiUrl : null 
 }
 
 const checkoutSlice = createSlice({
@@ -20,8 +20,8 @@ const checkoutSlice = createSlice({
         setItems(state:OrderResponseData,action:PayloadAction<ItemDetailsResponse>) {
             state.items.push(action.payload)
         },
-        setKhaltiUrl(state:OrderResponseData,action:PayloadAction<OrderResponseData['khalti']>) {
-            state.khalti = action.payload
+        setKhaltiUrl(state:OrderResponseData,action:PayloadAction<OrderResponseData['khaltiUrl']>) {
+            state.khaltiUrl = action.payload
         }
     }
 })

@@ -6,6 +6,7 @@ import Payment from "../model/payment";
 import OrderDetails from "../model/orderDetails";
 import axios from "axios";
 import Product from "../model/productModel";
+import Cart from "../model/cart";
 
 export class ExtendedOrder extends Order{
     declare paymentId : string | null
@@ -40,6 +41,12 @@ class OrderController{
                 productId : items[i].productId,
                 quantity : items[i].quantity,
                 orderId : orderData.id
+            })
+            await Cart.destroy({
+                where : {
+                    productId : items[i].productId,
+                    userId : userId
+                }
             })
         }
         if(paymentDetails.paymentMethod === PaymentMethod.KHALTI) {

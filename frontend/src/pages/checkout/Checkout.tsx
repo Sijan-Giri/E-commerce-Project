@@ -8,6 +8,7 @@ const Checkout = () => {
 
   const [paymentMethod , setPaymentMethod] = useState<PaymentMethod>(PaymentMethod.COD)
     const {items} = useAppSelector((state) => state.cart)
+    const {khaltiUrl} = useAppSelector((state) => state.checkout)
     const dispatch = useAppDispatch();
 
     const [data , setData] = useState<OrderData>({
@@ -43,7 +44,7 @@ const Checkout = () => {
    : 0;
 
 
-    const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e:FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const itemData : ItemDetails[] = items?.map((item) => {
        return {
@@ -58,8 +59,11 @@ const Checkout = () => {
         totalAmount
       }
 
-      dispatch(orderItem(orderData))
-      
+      await dispatch(orderItem(orderData))
+      if(khaltiUrl ) {
+        window.location.href = khaltiUrl
+        return
+      }
     }
 
   return (

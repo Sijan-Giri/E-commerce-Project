@@ -27,5 +27,5 @@ export interface OrderData{
 export interface OrderResponseData{
     items : ItemDetailsResponse[],
     status : Status,
-    khalti : string | null
+    khaltiUrl : string | null
 }
