@@ -7,6 +7,7 @@ import Login from './pages/auth/login/Login'
 import CardDetail from './globals/components/cardDetail/CardDetail'
 import Cart from './globals/components/cart/Cart'
 import Checkout from './pages/checkout/Checkout'
+import MyOrders from './pages/orders/MyOrders'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
     <Route path='/cardDetails/:id' element={<CardDetail />}/>
     <Route path="/cart" element={<Cart />}/>
     <Route path="/checkout" element={<Checkout />} />
+    <Route path='/myOrders' element={<MyOrders />}/>
     </Routes>
     </BrowserRouter>
     </Provider>

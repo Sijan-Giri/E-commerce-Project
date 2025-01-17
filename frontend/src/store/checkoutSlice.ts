@@ -52,3 +52,21 @@ export function orderItem(data : OrderData) {
         }
     }
 }
+
+export function fetchMyOrders(id:OrderData) {
+    return async function fetchMyOrdersThunk(dispatch:AppDispatch) {
+        dispatch(setStatus(Status.LOADING));
+        try {
+            const response = await AuthApi.get("/customer/order/" + id);
+            if(response.status == 200) {
+                dispatch(setStatus(Status.SUCCESS));
+                dispatch(setItems(response.data.data))
+            }
+            else {
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
