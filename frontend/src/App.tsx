@@ -8,6 +8,7 @@ import CardDetail from './globals/components/cardDetail/CardDetail'
 import Cart from './globals/components/cart/Cart'
 import Checkout from './pages/checkout/Checkout'
 import MyOrders from './pages/orders/MyOrders'
+import MyOrdersDetails from './pages/orders/MyOrdersDetails'
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
     <Route path="/cart" element={<Cart />}/>
     <Route path="/checkout" element={<Checkout />} />
     <Route path='/myOrders' element={<MyOrders />}/>
+    <Route path='/myOrders/:id' element={<MyOrdersDetails />}/>
     </Routes>
     </BrowserRouter>
     </Provider>

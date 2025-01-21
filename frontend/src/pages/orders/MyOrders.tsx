@@ -115,7 +115,7 @@ const MyOrders = () => {
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                     <p className="text-gray-900 whitespace-no-wrap">
-                                        {orders?.orderStatus}
+                                        paymentStatus
                                     </p>
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -123,12 +123,12 @@ const MyOrders = () => {
                                         className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                         <span aria-hidden
                                             className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                        <span className="relative">orderStatus</span>
+                                        <span className="relative">{orders?.orderStatus}</span>
                                     </span>
                                 </td>
-                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p className="text-gray-900 whitespace-no-wrap">Date</p>
-                                </td>
+                                {/* <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p className="text-gray-900 whitespace-no-wrap">{new Date(orders?.)}</p>
+                                </td> */}
                             </tr>
                            
                                         </>
