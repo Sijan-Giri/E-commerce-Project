@@ -1,8 +1,15 @@
+import { useEffect } from "react";
 import Navbar from "../../globals/components/navbar/Navbar"
-
+import { useAppDispatch, useAppSelector } from "../../store/hooks"
+import { fetchMyOrders } from "../../store/checkoutSlice";
 
 const MyOrders = () => {
+    const dispatch = useAppDispatch();
+    const {myOrders} = useAppSelector((state) => state.checkout);
     
+    useEffect(() => {
+        dispatch(fetchMyOrders())
+    },[])
   return (
     <>
    <Navbar />
@@ -87,7 +94,9 @@ const MyOrders = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            
+                            {
+                                myOrders?.map((orders) => {
+                                    return (
                                         <>
                                         <tr>
                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -96,17 +105,17 @@ const MyOrders = () => {
                                         </div>
                                        <div>
                                             <p className="text-gray-900 whitespace-no-wrap">
-                                               orderId
+                                               {orders?.id}
                                             </p>
                                         </div>
                                     </div>
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p className="text-gray-900 whitespace-no-wrap">order totalAmt</p>
+                                    <p className="text-gray-900 whitespace-no-wrap">{orders?.totalAmount}</p>
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                     <p className="text-gray-900 whitespace-no-wrap">
-                                        orderStatus,paymentMethod
+                                        {orders?.orderStatus}
                                     </p>
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -123,6 +132,9 @@ const MyOrders = () => {
                             </tr>
                            
                                         </>
+                                    )
+                                })
+                            }
                         </tbody>
                     </table>
                     <div

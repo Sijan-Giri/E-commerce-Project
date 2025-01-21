@@ -22,20 +22,33 @@ export interface ItemDetailsResponse extends ItemDetails{
     orderId : string
 }
 
+interface Payment {
+    paymentMethod : PaymentMethod
+}
+
+enum PaymentStatus{
+    PAID = "paid",
+    UNPAID = "unpaid",
+    PENDING = "pending"
+}
+
+export interface OrderPaymentData extends Payment{
+    paymentStatus : PaymentStatus
+}
+
 export interface OrderData{
     phoneNumber : string,
     shippingAddress : string,
     totalAmount : number,
-    paymentDetails : {
-        paymentMethod : PaymentMethod
-    },
+    paymentDetails : Payment,
     items : ItemDetails[]
 }
 
 export interface OrderResponseData{
     items : ItemDetailsResponse[],
     status : Status,
-    khaltiUrl : string | null
+    khaltiUrl : string | null,
+    myOrders : MyOrdersData[]
 }
 
 export interface MyOrdersData{

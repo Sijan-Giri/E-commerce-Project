@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Status } from "../types/types";
-import { ItemDetailsResponse, OrderData, OrderResponseData } from "../types/checkoutTypes";
+import { ItemDetailsResponse, MyOrdersData, OrderData, OrderResponseData } from "../types/checkoutTypes";
 import { AppDispatch } from "./store";
 import { AuthApi } from "../http";
 
 const initialState:OrderResponseData = {
     items : [],
     status : Status.LOADING,
-    khaltiUrl : null 
+    khaltiUrl : null,
+    myOrders : []
 }
 
 const checkoutSlice = createSlice({
@@ -22,11 +23,14 @@ const checkoutSlice = createSlice({
         },
         setKhaltiUrl(state:OrderResponseData,action:PayloadAction<OrderResponseData['khaltiUrl']>) {
             state.khaltiUrl = action.payload
+        },
+        setMyOrders(state:OrderResponseData,action:PayloadAction<MyOrdersData[]>) {
+            state.myOrders = action.payload
         }
     }
 })
 
-export const {setStatus , setItems , setKhaltiUrl} = checkoutSlice.actions;
+export const {setStatus , setItems , setKhaltiUrl , setMyOrders} = checkoutSlice.actions;
 export default checkoutSlice.reducer;
 
 export function orderItem(data : OrderData) {
@@ -53,14 +57,14 @@ export function orderItem(data : OrderData) {
     }
 }
 
-export function fetchMyOrders(id:OrderData) {
+export function fetchMyOrders() {
     return async function fetchMyOrdersThunk(dispatch:AppDispatch) {
         dispatch(setStatus(Status.LOADING));
         try {
-            const response = await AuthApi.get("/customer/order/" + id);
+            const response = await AuthApi.get("/order/customer/");
             if(response.status == 200) {
                 dispatch(setStatus(Status.SUCCESS));
-                dispatch(setItems(response.data.data))
+                dispatch(setMyOrders(response.data.data))
             }
             else {
                 dispatch(setStatus(Status.ERROR))
