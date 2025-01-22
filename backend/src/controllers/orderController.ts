@@ -7,6 +7,8 @@ import OrderDetails from "../model/orderDetails";
 import axios from "axios";
 import Product from "../model/productModel";
 import Cart from "../model/cart";
+import User from "../model/userModel";
+import Category from "../model/category";
 
 export class ExtendedOrder extends Order{
     declare paymentId : string | null
@@ -150,7 +152,22 @@ class OrderController{
                 orderId
             },
             include : [{
-                model : Product
+                model : Product,
+                include : [
+                    {
+                        model : Category
+                    }
+                ]
+            },{
+                model : Order,
+                include : [
+                    {
+                        model : Payment
+                    },
+                    {
+                        model : User
+                    }
+                ]
             }]
         }) 
         if(orderDetails) {

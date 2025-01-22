@@ -1,7 +1,21 @@
+import { useEffect } from "react"
 import Navbar from "../../globals/components/navbar/Navbar"
-
+import { useAppDispatch, useAppSelector } from "../../store/hooks"
+import { fetchMyOrderDetails } from "../../store/checkoutSlice";
+import { useParams } from "react-router-dom";
 
 const MyOrdersDetails = () => {
+
+  const {orderDetails} = useAppSelector((state) => state.checkout);
+  const {id} = useParams()
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if(id) {
+      dispatch(fetchMyOrderDetails(id))
+    }
+  },[])
+
   return (
     <>
     <Navbar />

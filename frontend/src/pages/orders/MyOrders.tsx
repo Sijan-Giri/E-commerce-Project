@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Navbar from "../../globals/components/navbar/Navbar"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { fetchMyOrders } from "../../store/checkoutSlice";
+import { Link } from "react-router-dom";
 
 const MyOrders = () => {
     const dispatch = useAppDispatch();
@@ -103,11 +104,11 @@ const MyOrders = () => {
                                     <div className="flex items-center">
                                         <div className="flex-shrink-0 w-10 h-10">
                                         </div>
-                                       <div>
+                                       <Link to={`/myOrders/${orders?.id}`}><div>
                                             <p className="text-gray-900 whitespace-no-wrap">
                                                {orders?.id}
                                             </p>
-                                        </div>
+                                        </div></Link>
                                     </div>
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -115,7 +116,7 @@ const MyOrders = () => {
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                     <p className="text-gray-900 whitespace-no-wrap">
-                                        paymentStatus
+                                        Pending
                                     </p>
                                 </td>
                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -126,9 +127,9 @@ const MyOrders = () => {
                                         <span className="relative">{orders?.orderStatus}</span>
                                     </span>
                                 </td>
-                                {/* <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <p className="text-gray-900 whitespace-no-wrap">{new Date(orders?.)}</p>
-                                </td> */}
+                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p className="text-gray-900 whitespace-no-wrap">{new Date(orders?.createdAt).toLocaleDateString()}</p>
+                                </td>
                             </tr>
                            
                                         </>
