@@ -51,7 +51,7 @@ export interface OrderResponseData{
     status : Status,
     khaltiUrl : string | null,
     myOrders : MyOrdersData[],
-    orderDetails : OrderDetails | null
+    orderDetails : OrderDetails[]
 }
 
 export interface MyOrdersData{
@@ -70,5 +70,6 @@ export interface OrderDetails{
     quantity : string,
     orderId : string,
     Product : Product,
-    Order : MyOrdersData
+    Order : MyOrdersData,
+    createdAt : string
 }

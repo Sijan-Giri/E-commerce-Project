@@ -9,7 +9,7 @@ const initialState:OrderResponseData = {
     status : Status.LOADING,
     khaltiUrl : null,
     myOrders : [],
-    orderDetails : null
+    orderDetails : []
 }
 
 const checkoutSlice = createSlice({
@@ -28,7 +28,7 @@ const checkoutSlice = createSlice({
         setMyOrders(state:OrderResponseData,action:PayloadAction<MyOrdersData[]>) {
             state.myOrders = action.payload
         },
-        setMyOrderDetails(state:OrderResponseData,action:PayloadAction<OrderDetails>){
+        setMyOrderDetails(state:OrderResponseData,action:PayloadAction<OrderDetails[]>){
             state.orderDetails = action.payload
         }
     }
