@@ -147,7 +147,7 @@ class OrderController{
                 message : "Please provide orderId"
             })
         }
-        const orderDetails = await OrderDetails.findOne({
+        const orderDetails = await OrderDetails.findAll({
             where : {
                 orderId
             },
@@ -170,7 +170,7 @@ class OrderController{
                 ]
             }]
         }) 
-        if(orderDetails) {
+        if(orderDetails.length > 0) {
             res.status(200).json({
                 message : "Orders details fetched successfully",
                 data : orderDetails
