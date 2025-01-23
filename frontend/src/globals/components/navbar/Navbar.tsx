@@ -122,11 +122,11 @@ const Navbar = () => {
                 )
               }
               <div>
-                <img
+                <Link to="/myOrders"><img
                   className="w-10 h-10 rounded-full"
                   src="https://tailwindcomponents.com/storage/avatars/zGVdhplPHfkRi10xr9wao7ERhbwRMjGgTOLAyHeK.png"
                   alt=""
-                />
+                /></Link>
               </div>
             </div>
             <div className="space-y-1.5 cursor-pointer lg:hidden">

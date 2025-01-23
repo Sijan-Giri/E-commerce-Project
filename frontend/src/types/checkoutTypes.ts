@@ -7,6 +7,7 @@ export enum PaymentMethod{
 }
 
 export enum OrderStatus{
+    ALL = "all",
     PENDING = "pending",
     DELIVERED = "delivered",
     ONTHEWAY = "onTheWay",

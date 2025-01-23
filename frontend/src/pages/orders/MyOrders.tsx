@@ -1,16 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../../globals/components/navbar/Navbar"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { fetchMyOrders } from "../../store/checkoutSlice";
 import { Link } from "react-router-dom";
+import { OrderStatus } from "../../types/checkoutTypes";
 
 const MyOrders = () => {
     const dispatch = useAppDispatch();
+    const [selectedItem , setSelectedItem] = useState<OrderStatus>(OrderStatus.ALL)
     const {myOrders} = useAppSelector((state) => state.checkout);
-    
+    const [searchItem , setSearchItem] = useState<string>("");
+    const [date , setDate] = useState<string>("")
+
+    const filteredOrder = myOrders?.filter((order) => selectedItem == OrderStatus.ALL || order?.orderStatus == selectedItem).filter((order) => (order?.totalAmount?.toString().toLowerCase()?.includes(searchItem))).filter((order) => date == "" || new Date(order?.createdAt).toLocaleDateString() == new Date(date).toLocaleDateString())
+
     useEffect(() => {
         dispatch(fetchMyOrders())
     },[])
+
   return (
     <>
    <Navbar />
@@ -31,14 +38,14 @@ const MyOrders = () => {
                         </div>
                     </div>
                     <div className="relative">
-                        <select 
+                        <select onChange={(e) => setSelectedItem(e.target.value as OrderStatus)}
                             className="h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
-                            <option value="all">All</option>
-                            <option value="pending">Pending</option>
-                            <option value="ontheway">OntheWay</option>
-                            <option value="cancelled">Cancelled</option>
-                            <option value="delivered">Delivered</option>
-                            <option value="preparation">Preparation</option>
+                            <option value={OrderStatus.ALL}>All</option>
+                            <option value={OrderStatus.PENDING}>Pending</option>
+                            <option value={OrderStatus.ONTHEWAY}>OntheWay</option>
+                            <option value={OrderStatus.CANCELLED}>Cancelled</option>
+                            <option value={OrderStatus.DELIVERED}>Delivered</option>
+                            <option value={OrderStatus.PREPARATION}>Preparation</option>
                         </select>
                         <div
                             className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -56,12 +63,14 @@ const MyOrders = () => {
                             </path>
                         </svg>
                     </span>
-                    <input placeholder="Search"
+                    <input placeholder="Search" onChange={(e) => setSearchItem(e.target.value)} value={searchItem}
                         className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
                         
                 </div>
                 <div className="block relative">
                     <input placeholder="Search"
+                    onChange={(e) => setDate(e.target.value)}
+                    value={date}
                         type='date'
                         className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
                         
@@ -96,7 +105,7 @@ const MyOrders = () => {
                         </thead>
                         <tbody>
                             {
-                                myOrders?.map((orders) => {
+                                filteredOrder.length > 0 && filteredOrder?.map((orders) => {
                                     return (
                                         <>
                                         <tr>
