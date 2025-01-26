@@ -57,5 +57,6 @@ export interface InitialState{
     products : Product[],
     user : UserTypes[],
     order : OrderData[],
-    status : Status
+    status : Status,
+    singleProduct : Product | null
 }

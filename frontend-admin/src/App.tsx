@@ -16,6 +16,8 @@ import Tables from './pages/Tables';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -32,7 +34,8 @@ function App() {
   return loading ? (
     <Loader />
   ) : (
-    <DefaultLayout>
+ <DefaultLayout>
+   <Provider store={store}>
       <Routes>
         <Route
           index
@@ -143,6 +146,7 @@ function App() {
           }
         />
       </Routes>
+   </Provider>
     </DefaultLayout>
   );
 }

@@ -316,6 +316,27 @@ class OrderController{
             })
         }
     }
+
+    async fetchOrders(req:AuthRequest,res:Response):Promise<void> {
+        const orders = await Order.findAll({
+            include : [
+                {
+                    model : Payment
+                }
+            ]
+        })
+        if(orders.length > 0) {
+            res.status(200).json({
+                message : "Orders fetched successfully",
+                data : orders
+            })
+        }
+        else {
+            res.status(404).json({
+                message : "No orders found!!"
+            })
+        }
+    }
 }
 
 export default new OrderController();
