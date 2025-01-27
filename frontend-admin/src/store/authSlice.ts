@@ -55,7 +55,7 @@ export function register(data:RegisterData) {
             const response = await API.post("/register",data);
         if(response.status === 200) {
             dispatch(setStatus(Status.SUCCESS));
-            dispatch(setUser(response.data.data))
+            dispatch(setUser(response.data.data));
         }
         else {
             dispatch(setStatus(Status.ERROR))
@@ -69,7 +69,7 @@ export function register(data:RegisterData) {
 export function login(data:LoginData){
     return async function loginThunk(dispatch:any) {
         try {
-            const response = await API.post("http://localhost:4000/login",data);
+            const response = await API.post("/login",data);
         if(response.status === 200) {
             const token = response.data.token
             dispatch(setStatus(Status.SUCCESS));
