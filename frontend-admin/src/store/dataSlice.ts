@@ -142,3 +142,4 @@ export function singleProduct(id:string) {
         }
     }
 }
+

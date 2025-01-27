@@ -3,7 +3,8 @@ import { Status } from "./status"
 export interface UserTypes{
     id : string,
     email : string,
-    username : string
+    username : string,
+    createdAt : string
 }
 
 interface CategoryTypes {
@@ -42,6 +43,7 @@ export interface OrderDetails{
 }
 
 export interface OrderData{
+    id : string,
     phoneNumber : string,
     shippingAddress : string,
     totalAmount : number,
@@ -50,7 +52,8 @@ export interface OrderData{
         paymentStatus?:PaymentStatus,
         pidx?:string
     },
-    items : OrderDetails[]
+    items : OrderDetails[],
+    User : UserTypes
 }
 
 export interface InitialState{
