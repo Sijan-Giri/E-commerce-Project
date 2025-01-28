@@ -90,6 +90,25 @@ class AuthController{
             })
         }
     }
+
+    public static async deleteUser(req:AuthRequest,res:Response):Promise<void> {
+        const UserId = req.user?.id;
+        const userExists = await User.findByPk(UserId)
+        if(!userExists) {
+            res.status(404).json({
+                message : "User doesnot exists"
+            })
+            return
+        }
+        await User.destroy({
+            where : {
+                UserId
+            }
+        })
+        res.status(200).json({
+            message : "User deleted successfully"
+        })
+    }
 }
 
 export default AuthController

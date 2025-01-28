@@ -14,10 +14,10 @@ interface LoginData{
 }
 
 interface User{
-    username : string,
-    password : string,
-    email  : string,
-    token : string
+    username : string | null,
+    password : string | null,
+    email  : string | null,
+    token : string | null
 }
 
 interface AuthState{
@@ -42,11 +42,14 @@ const authSlice = createSlice({
         },
         setToken(state:AuthState,action:PayloadAction<string>) {
             state.user.token = action.payload
-        } 
+        },
+        setLogout(state:AuthState) {
+            state.user.token = null
+        }
     }
 })
 
-export const {setUser , setStatus , setToken} = authSlice.actions;
+export const {setUser , setStatus , setToken , setLogout} = authSlice.actions;
 export default authSlice.reducer
 
 export function register(data:RegisterData) {

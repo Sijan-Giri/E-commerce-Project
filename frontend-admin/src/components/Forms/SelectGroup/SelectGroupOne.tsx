@@ -1,8 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import {  APIAuthenticated } from '../../../http';
+
+interface Category{
+  categoryName : string,
+  id : string
+}
 
 const SelectGroupOne: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
+  const [category , setCategory] = useState<Category[]>([])
+
+  const fetchCategory = async () => {
+    try {
+      const response = await APIAuthenticated.get("/admin/category");
+      if(response.status == 200) {
+        setCategory(response.data.data)
+      }
+      else {
+        setCategory([])
+      }
+    } catch (error) {
+      setCategory([])
+    }
+  }
+
+  useEffect(() => {
+    fetchCategory()
+  },[])
 
   const changeTextColor = () => {
     setIsOptionSelected(true);
@@ -12,7 +37,7 @@ const SelectGroupOne: React.FC = () => {
     <div className="mb-4.5">
       <label className="mb-2.5 block text-black dark:text-white">
         {' '}
-        Subject{' '}
+        Category{' '}
       </label>
 
       <div className="relative z-20 bg-transparent dark:bg-form-input">
@@ -27,7 +52,7 @@ const SelectGroupOne: React.FC = () => {
           }`}
         >
           <option value="" disabled className="text-body dark:text-bodydark">
-            Select your subject
+            Select your category
           </option>
           <option value="USA" className="text-body dark:text-bodydark">
             USA

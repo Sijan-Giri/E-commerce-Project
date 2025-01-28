@@ -12,6 +12,14 @@ const initialState:InitialState = {
     singleProduct : null
 }
 
+interface DeleteProduct{
+    productId : string
+}
+
+interface DeleteUser{
+    userId : string
+}
+
 const dataSlice = createSlice({
     name : "data",
     initialState,
@@ -30,11 +38,19 @@ const dataSlice = createSlice({
         },
         setSingleProduct(state:InitialState,action:PayloadAction<Product>) {
             state.singleProduct = action.payload
+        },
+        setDeleteProduct(state:InitialState,action:PayloadAction<DeleteProduct>) {
+            const index = state.products.findIndex((product) => product?.id == action.payload.productId);
+            state.products.splice(index,1)
+        },
+        setDeleteUser(state:InitialState,action:PayloadAction<DeleteUser>) {
+            const index = state.user.findIndex((item) => item?.id == action.payload.userId);
+            state.user?.splice(index,1)
         }
     }
 })
 
-export const {setProduct , setOrder , setUser , setStatus , setSingleProduct} = dataSlice.actions
+export const {setProduct , setOrder , setUser , setStatus , setSingleProduct , setDeleteProduct , setDeleteUser} = dataSlice.actions;
 export default dataSlice.reducer;
 
 export function fetchProducts() {
@@ -143,3 +159,36 @@ export function singleProduct(id:string) {
     }
 }
 
+export function deleteOrder(id:string) {
+    return async function deleteOrderThunk(dispatch:AppDispatch) {
+        dispatch(setStatus(Status.LOADING));
+        try {
+            const response = await APIAuthenticated.delete(`/order/admin/${id}`);
+            if(response.status == 200) {
+                dispatch(setStatus(Status.SUCCESS));
+            }
+            else {
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
+
+export function deleteUser(id:string) {
+    return async function deleteUserThunk(dispatch:AppDispatch) {
+        dispatch(setStatus(Status.LOADING));
+        try {
+            const response = await APIAuthenticated.delete(`/user/${id}`);
+            if(response.status == 200) {
+                dispatch(setStatus(Status.SUCCESS));
+            }
+            else {
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}

@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import { useEffect } from 'react';
-import { fetchOrders } from '../../store/dataSlice';
+import {  useEffect } from 'react';
+import { deleteOrder, fetchOrders, setDeleteProduct } from '../../store/dataSlice';
 
 const TableThree = () => {
 
@@ -8,9 +8,10 @@ const TableThree = () => {
   const {order:orders} = useAppSelector((state) => state.data);
 
   const handleDelete = (id:string) => {
-    
+    dispatch(deleteOrder(id));
+    dispatch(setDeleteProduct({productId:id}))
   }
-
+  
   useEffect(() => {
     dispatch(fetchOrders());
   },[])

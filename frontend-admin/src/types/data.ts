@@ -13,17 +13,17 @@ interface CategoryTypes {
 }
 
 export interface Product{
-    id: string,
+    id?: string,
     productName : string,
     productPrice : number,
     productDescription : string,
     productTotalStockQty : number,
-    createdAt : string,
-    updatedAt : string,
+    createdAt? : string,
+    updatedAt ?: string,
     UserId : string,
     CategoryId : string,
-    User : UserTypes,
-    Category : CategoryTypes
+    User ?: UserTypes,
+    Category ?: CategoryTypes
 }
 
 export enum PaymentMethod{
