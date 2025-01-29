@@ -1,11 +1,18 @@
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { useEffect } from 'react';
-import { fetchProducts } from '../../store/dataSlice';
+import { deleteProduct, fetchProducts, setDeleteProduct } from '../../store/dataSlice';
 
 const TableTwo = () => {
 
   const {products} = useAppSelector((state) => state.data);
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
+
+  const handleDelete = (id?:string) => {
+    if(id) {
+      dispatch(deleteProduct(id))
+    dispatch(setDeleteProduct({productId : id}))
+    }
+  }
 
   useEffect(() => {
     dispatch(fetchProducts())
@@ -83,7 +90,7 @@ const TableTwo = () => {
                         />
                       </svg>
                     </button>
-                    <button className="hover:text-primary">
+                    <button className="hover:text-primary" onClick={() => handleDelete(product?.id)}>
                       <svg
                         className="fill-current"
                         width="18"

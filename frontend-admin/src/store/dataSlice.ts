@@ -20,6 +20,10 @@ interface DeleteUser{
     userId : string
 }
 
+interface DeleteOrder{
+    orderId : string
+}
+
 const dataSlice = createSlice({
     name : "data",
     initialState,
@@ -39,6 +43,10 @@ const dataSlice = createSlice({
         setSingleProduct(state:InitialState,action:PayloadAction<Product>) {
             state.singleProduct = action.payload
         },
+        setDeleteOrder(state:InitialState,action:PayloadAction<DeleteOrder>) {
+            const index = state.order?.findIndex((item) => item?.id == action.payload.orderId);
+            state.order?.splice(index,1)
+        },
         setDeleteProduct(state:InitialState,action:PayloadAction<DeleteProduct>) {
             const index = state.products.findIndex((product) => product?.id == action.payload.productId);
             state.products.splice(index,1)
@@ -50,7 +58,7 @@ const dataSlice = createSlice({
     }
 })
 
-export const {setProduct , setOrder , setUser , setStatus , setSingleProduct , setDeleteProduct , setDeleteUser} = dataSlice.actions;
+export const {setProduct , setOrder , setUser , setStatus , setSingleProduct , setDeleteProduct , setDeleteUser , setDeleteOrder} = dataSlice.actions;
 export default dataSlice.reducer;
 
 export function fetchProducts() {
@@ -176,11 +184,11 @@ export function deleteOrder(id:string) {
     }
 }
 
-export function deleteUser(id:string) {
+export function deleteUser(userId:string) {
     return async function deleteUserThunk(dispatch:AppDispatch) {
         dispatch(setStatus(Status.LOADING));
         try {
-            const response = await APIAuthenticated.delete(`/user/${id}`);
+            const response = await APIAuthenticated.delete(`/user/${userId}`);
             if(response.status == 200) {
                 dispatch(setStatus(Status.SUCCESS));
             }
