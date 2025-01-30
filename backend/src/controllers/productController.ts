@@ -7,14 +7,14 @@ import Category from "../model/category";
 class ProductController{
     public static async addProduct(req:AuthRequest , res:Response):Promise<void> {
         const userId = req.user?.id
-        const {productName,productDescription,productimageUrl,productPrice,productTotalStockQty,categoryId} = req.body;
+        const {productName,productDescription,productimageUrl,productPrice,productTotalStockQty,CategoryId} = req.body;
         let fileName;
         if(req.file) {
             fileName = req.file?.filename
         }
-        if(!productName || !productDescription || !productPrice || !productTotalStockQty || !categoryId) {
+        if(!productName || !productDescription || !productPrice || !productTotalStockQty || !CategoryId) {
             res.status(400).json({
-                message : "Please provide productName , productDescription , categoryId , productPrice & productTotalStockQty"
+                message : "Please provide productName , productDescription , CategoryId , productPrice & productTotalStockQty"
             })
             return
         }
@@ -25,7 +25,7 @@ class ProductController{
             productTotalStockQty,
             productimageUrl : fileName,
             UserId : userId,
-            CategoryId : categoryId
+            CategoryId : CategoryId
         })
         res.status(200).json({
             message : "Product created successfully"

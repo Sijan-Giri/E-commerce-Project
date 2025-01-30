@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { InitialState, OrderData, Product, UserTypes } from "../types/data";
+import { Category, CategoryTypes, InitialState, OrderData, Product, UserTypes } from "../types/data";
 import { Status } from "../types/status";
 import { AppDispatch } from "./store";
 import { APIAuthenticated } from "../http";
@@ -8,6 +8,7 @@ const initialState:InitialState = {
     products : [],
     order : [],
     user : [],
+    category : [],
     status : Status.LOADING,
     singleProduct : null
 }
@@ -54,11 +55,14 @@ const dataSlice = createSlice({
         setDeleteUser(state:InitialState,action:PayloadAction<DeleteUser>) {
             const index = state.user.findIndex((item) => item?.id == action.payload.userId);
             state.user?.splice(index,1)
+        },
+        setCategory(state:InitialState,action:PayloadAction<CategoryTypes[]>) {
+            state.category = action.payload
         }
     }
 })
 
-export const {setProduct , setOrder , setUser , setStatus , setSingleProduct , setDeleteProduct , setDeleteUser , setDeleteOrder} = dataSlice.actions;
+export const {setProduct , setOrder , setUser , setStatus , setSingleProduct , setDeleteProduct , setDeleteUser , setDeleteOrder , setCategory} = dataSlice.actions;
 export default dataSlice.reducer;
 
 export function fetchProducts() {
@@ -121,7 +125,6 @@ export function addProduct(data:Product) {
             const response = await APIAuthenticated.post("/admin/product",data);
             if(response.status == 200) {
                 dispatch(setStatus(Status.SUCCESS));
-                dispatch(setProduct(response.data.data))
             }
             else {
                 dispatch(setStatus(Status.ERROR))
@@ -189,6 +192,41 @@ export function deleteUser(userId:string) {
         dispatch(setStatus(Status.LOADING));
         try {
             const response = await APIAuthenticated.delete(`/user/${userId}`);
+            if(response.status == 200) {
+                dispatch(setStatus(Status.SUCCESS));
+            }
+            else {
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
+
+export function fetchCategory() {
+    return async function fetchCategoryThunk(dispatch:AppDispatch) {
+        dispatch(setStatus(Status.LOADING));
+        try {
+              const response = await APIAuthenticated.get("/admin/category");
+              if(response.status == 200) {
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setCategory(response.data.data))
+              }
+              else {
+                dispatch(setStatus(Status.ERROR))
+              }
+            } catch (error) {
+              dispatch(setStatus(Status.ERROR))
+            }
+    }
+}
+
+export function addCategory(data:Category) {
+    return async function addCategoryThunk(dispatch:AppDispatch) {
+        dispatch(setStatus(Status.LOADING));
+        try {
+            const response = await APIAuthenticated.post("/admin/category",data);
             if(response.status == 200) {
                 dispatch(setStatus(Status.SUCCESS));
             }

@@ -1,33 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import {  APIAuthenticated } from '../../../http';
+import React, {  useState } from 'react';
+import { useAppSelector } from '../../../store/hook';
 
-interface Category{
-  categoryName : string,
-  id : string
-}
 
 const SelectGroupOne: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
-  const [category , setCategory] = useState<Category[]>([])
 
-  const fetchCategory = async () => {
-    try {
-      const response = await APIAuthenticated.get("/admin/category");
-      if(response.status == 200) {
-        setCategory(response.data.data)
-      }
-      else {
-        setCategory([])
-      }
-    } catch (error) {
-      setCategory([])
-    }
-  }
-
-  useEffect(() => {
-    fetchCategory()
-  },[])
+  const {category} = useAppSelector((state) => state.data)
 
   const changeTextColor = () => {
     setIsOptionSelected(true);
@@ -35,7 +14,7 @@ const SelectGroupOne: React.FC = () => {
 
   return (
     <div className="mb-4.5">
-      <label className="mb-2.5 block text-black dark:text-white">
+      <label className="mb-2.5 block text-black dark:text-gray-100">
         {' '}
         Category{' '}
       </label>
@@ -54,15 +33,17 @@ const SelectGroupOne: React.FC = () => {
           <option value="" disabled className="text-body dark:text-bodydark">
             Select your category
           </option>
-          <option value="USA" className="text-body dark:text-bodydark">
-            USA
-          </option>
-          <option value="UK" className="text-body dark:text-bodydark">
-            UK
-          </option>
-          <option value="Canada" className="text-body dark:text-bodydark">
-            Canada
-          </option>
+          {
+            category?.length > 0 && category?.map((item) => {
+              return (
+                <>
+                <option key={item?.id} value={item?.categoryName} className="text-body dark:text-bodydark">
+                  {item?.categoryName}
+                </option>
+                </>
+              )
+            })
+          }
         </select>
 
         <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">

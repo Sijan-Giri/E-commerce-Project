@@ -7,7 +7,7 @@ export interface UserTypes{
     createdAt : string
 }
 
-interface CategoryTypes {
+export interface CategoryTypes {
     id : string,
     categoryName : string
 }
@@ -20,7 +20,7 @@ export interface Product{
     productTotalStockQty : number,
     createdAt? : string,
     updatedAt ?: string,
-    UserId : string,
+    UserId? : string,
     CategoryId : string,
     User ?: UserTypes,
     Category ?: CategoryTypes
@@ -56,10 +56,16 @@ export interface OrderData{
     User : UserTypes
 }
 
+export interface Category{
+    categoryName : string,
+
+  }
+
 export interface InitialState{
     products : Product[],
     user : UserTypes[],
     order : OrderData[],
     status : Status,
-    singleProduct : Product | null
+    singleProduct : Product | null,
+    category : CategoryTypes[]
 }
