@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Category, CategoryTypes, InitialState, OrderData, Product, UserTypes } from "../types/data";
+import { Category, CategoryTypes, InitialState, OrderData, Product, SingleOrder, UserTypes } from "../types/data";
 import { Status } from "../types/status";
 import { AppDispatch } from "./store";
 import { APIAuthenticated } from "../http";
@@ -10,7 +10,8 @@ const initialState:InitialState = {
     user : [],
     category : [],
     status : Status.LOADING,
-    singleProduct : null
+    singleProduct : null,
+    singleOrder : []
 }
 
 interface DeleteProduct{
@@ -58,11 +59,17 @@ const dataSlice = createSlice({
         },
         setCategory(state:InitialState,action:PayloadAction<CategoryTypes[]>) {
             state.category = action.payload
+        },
+        setSingleOrder(state:InitialState,action:PayloadAction<SingleOrder[]>) {
+            state.singleOrder = action.payload
+        },
+        setOrderStatus(state:InitialState,action:PayloadAction<{id:string,status:string}>) {
+            
         }
     }
 })
 
-export const {setProduct , setOrder , setUser , setStatus , setSingleProduct , setDeleteProduct , setDeleteUser , setDeleteOrder , setCategory} = dataSlice.actions;
+export const {setProduct , setOrder , setUser , setStatus , setSingleProduct , setDeleteProduct , setDeleteUser , setDeleteOrder , setCategory , setSingleOrder} = dataSlice.actions;
 export default dataSlice.reducer;
 
 export function fetchProducts() {
@@ -170,6 +177,24 @@ export function singleProduct(id:string) {
     }
 }
 
+export function singleOrder(id:string) {
+    return async function singleOrderThunk(dispatch:AppDispatch) {
+        dispatch(setStatus(Status.LOADING));
+        try {
+            const response = await APIAuthenticated.get(`/order/customer/${id}`);
+            if(response.status == 200) {
+                dispatch(setStatus(Status.SUCCESS));
+                dispatch(setSingleOrder(response.data.data))
+            }
+            else {
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
+
 export function deleteOrder(id:string) {
     return async function deleteOrderThunk(dispatch:AppDispatch) {
         dispatch(setStatus(Status.LOADING));
@@ -229,6 +254,23 @@ export function addCategory(data:Category) {
             const response = await APIAuthenticated.post("/admin/category",data);
             if(response.status == 200) {
                 dispatch(setStatus(Status.SUCCESS));
+            }
+            else {
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
+
+export function handleOrderStatus(id:string,status:string) {
+    return async function handleOrderStatusThunk(dispatch:AppDispatch) {
+        dispatch(setStatus(Status.LOADING));
+        try {
+            const response = await APIAuthenticated.get(`/order/admin`);
+            if(response.status == 200) {
+                dispatch(setStatus(Status.SUCCESS))
             }
             else {
                 dispatch(setStatus(Status.ERROR))

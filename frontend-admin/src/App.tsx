@@ -18,6 +18,7 @@ import DefaultLayout from './layout/DefaultLayout';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import FormCategory from './pages/Form/FormCategory';
+import OrderDetail from './pages/OrderDetail';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -99,6 +100,17 @@ function App() {
             <DefaultLayout>
               <PageTitle title="Tables | AdminDashboard - Tailwind CSS Admin Dashboard Template" />
               <Tables />
+              </DefaultLayout>
+            </>
+          }
+        />
+        <Route
+          path="/order/:id"
+          element={
+            <>
+            <DefaultLayout>
+              <PageTitle title="Order | AdminDashboard - Tailwind CSS Admin Dashboard Template" />
+              <OrderDetail />
               </DefaultLayout>
             </>
           }

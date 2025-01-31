@@ -51,6 +51,6 @@ Payment.hasOne(Order,{foreignKey : "paymentId"});
 Order.belongsTo(Payment,{foreignKey : "paymentId"});
 
 User.hasMany(Order,{foreignKey : "userId"});
-Order.belongsTo(User,{foreignKey : "userId"})
+Order.belongsTo(User,{foreignKey : "userId"});
 
 export default sequelize

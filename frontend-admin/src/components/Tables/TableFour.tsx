@@ -1,76 +1,77 @@
 import { useAppDispatch, useAppSelector } from '../../store/hook';
-import {  useEffect } from 'react';
-import { deleteOrder, fetchOrders, setDeleteOrder } from '../../store/dataSlice';
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { deleteProduct, fetchProducts, setDeleteProduct } from '../../store/dataSlice';
 
-const TableThree = () => {
+const TableFour = () => {
 
+  const {products} = useAppSelector((state) => state.data);
   const dispatch = useAppDispatch();
-  const {order:orders} = useAppSelector((state) => state.data);
 
-  const handleDelete = (id:string) => {
-    dispatch(deleteOrder(id));
-    dispatch(setDeleteOrder({orderId:id}))
+  const handleDelete = (id?:string) => {
+    if(id) {
+      dispatch(deleteProduct(id))
+    dispatch(setDeleteProduct({productId : id}))
+    }
   }
-  
+
   useEffect(() => {
-    dispatch(fetchOrders());
+    dispatch(fetchProducts())
   },[])
 
   return (
-    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <div className="max-w-full overflow-x-auto">
-        <table className="w-full table-auto">
-          <thead>
-          <h4 className="text-xl font-semibold text-black dark:text-white">
-        Orders
+    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="py-6 px-4 md:px-6 xl:px-7.5">
+        <h4 className="text-xl font-semibold text-black dark:text-white">
+        Categories
         </h4>
-            <tr className="bg-gray-2 text-left dark:bg-meta-4">
-              <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
-                Id
-              </th>
-              <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                Shipping Address
-              </th>
-              <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                User email
-              </th>
-              <th className="py-4 px-4 font-medium text-black dark:text-white">
-                Phone Number
-              </th>
-              <th className="py-4 px-4 font-medium text-black dark:text-white">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders?.length > 0 && orders?.map((order, key) => {
-              return (
-                <>
-                <tr key={key}>
-                <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
-                  <h5 className="font-medium text-black dark:text-white">
-                    {order?.id}
-                  </h5>
-                </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <p className="text-black dark:text-white">
-                    {order?.shippingAddress}
-                  </p>
-                </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="text-black dark:text-white">
-                    {order?.User?.email}
-                  </p>
-                </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                <p className="text-black dark:text-white">
-                    {order?.phoneNumber}
-                  </p>
-                </td>
-                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+      </div>
+
+      <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
+        <div className="col-span-3 flex items-center">
+          <p className="font-medium">Category Name</p>
+        </div>
+        <div className="col-span-2 hidden items-center sm:flex">
+          <p className="font-medium">Product Category</p>
+        </div>
+        <div className="col-span-1 flex items-center">
+          <p className="font-medium">Product Price</p>
+        </div>
+        <div className="col-span-1 flex items-center">
+          <p className="font-medium">Product Qty</p>
+        </div>
+        <div className="col-span-1 flex items-center">
+          <p className="font-medium">Action</p>
+        </div>
+      </div>
+
+      {products?.length > 0 && products?.map((product, key) => (
+        <div
+          className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
+          key={key}
+        >
+          <div className="col-span-3 flex items-center">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+              <p className="text-sm text-black dark:text-white">
+                {product?.productName}
+              </p>
+            </div>
+          </div>
+          <div className="col-span-2 hidden items-center sm:flex">
+            <p className="text-sm text-black dark:text-white">
+              {product?.CategoryId}
+            </p>
+          </div>
+          <div className="col-span-1 flex items-center">
+            <p className="text-sm text-black dark:text-white">
+              ${product?.productPrice}
+            </p>
+          </div>
+          <div className="col-span-1 flex items-center">
+            <p className="text-sm text-meta-3">{product?.productTotalStockQty}</p>
+          </div>
+          <td className="border-b border-[#eee] py-5 px-2 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
-                    <Link to={`/order/${order?.id}`}><button className="hover:text-primary">
+                    <button className="hover:text-primary">
                     <svg
                         className="fill-current"
                         width="18"
@@ -88,8 +89,8 @@ const TableThree = () => {
                           fill=""
                         />
                       </svg>
-                    </button></Link>
-                    <button onClick={() => handleDelete(order?.id)} className="hover:text-primary">
+                    </button>
+                    <button className="hover:text-primary" onClick={() => handleDelete(product?.id)}>
                       <svg
                         className="fill-current"
                         width="18"
@@ -118,15 +119,10 @@ const TableThree = () => {
                     </button>
                   </div>
                 </td>
-              </tr>
-                </>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
+        </div>
+      ))}
     </div>
   );
 };
 
-export default TableThree;
+export default TableFour;
