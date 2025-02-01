@@ -40,6 +40,12 @@ const SignIn: React.FC = () => {
     }
   },[status,dispatch])
 
+  useEffect(() => {
+    if(localStorage.getItem("token")) {
+      navigate("/admin/dashboard");
+    }
+  },[])
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-boxdark">
     <div className="w-full max-w-md rounded-xl border border-stroke bg-white shadow-lg dark:border-strokedark dark:bg-boxdark">

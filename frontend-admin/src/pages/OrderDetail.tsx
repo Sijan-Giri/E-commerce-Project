@@ -17,10 +17,10 @@ const OrderDetail = () => {
         }
     },[])
 
-    // const handleOrderStatus = (e:ChangeEvent<HTMLSelectElement>) => {
-    //     e.preventDefault();
-    //     dispatch()
-    // }
+    const handleOrderStatus = (e:ChangeEvent<HTMLSelectElement>) => {
+        e.preventDefault();
+        
+    }
     
   return (  
     <>
@@ -41,13 +41,13 @@ const OrderDetail = () => {
           </div>
           <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">
             <div className="w-full flex flex-col justify-start items-start space-y-8">
-              <h3 className="text-xl dark:text-white xl:text-2xl font-semibold leading-6 text-gray-800">order.item.product</h3>
+              <h3 className="text-xl dark:text-white xl:text-2xl font-semibold leading-6 text-gray-800">{order?.Product?.productName}</h3>
               
             </div>
             <div className="flex justify-between space-x-8 items-start w-full">
-              <p className="text-base dark:text-white xl:text-lg leading-6">Rs.amount </p>
-              <p className="text-base dark:text-white xl:text-lg leading-6 text-gray-800">orderQuantity</p>
-              <p className="text-base dark:text-white xl:text-lg font-semibold leading-6 text-gray-800">adfgasdf</p>
+              <p className="text-base dark:text-white xl:text-lg leading-6">Rs.{order?.Order?.totalAmount} </p>
+              <p className="text-base dark:text-white xl:text-lg leading-6 text-gray-800">Qty :  {order?.quantity}</p>
+              <p className="text-base dark:text-white xl:text-lg font-semibold leading-6 text-gray-800"></p>
             </div>
           </div>
         </div>
@@ -59,20 +59,20 @@ const OrderDetail = () => {
           <div className="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
             <div className="flex justify-between w-full">
               <p className="text-base dark:text-white leading-4 text-gray-800">Payment Method</p>
-              <p className="text-base dark:text-gray-300 leading-4 text-gray-600">khalti</p>
+              <p className="text-base dark:text-gray-300 leading-4 text-gray-600">COD</p>
             </div>
             <div className="flex justify-between w-full">
               <p className="text-base dark:text-white leading-4 text-gray-800">Payment Status</p>
-              <p className="text-base dark:text-gray-300 leading-4 text-gray-600">payment status</p>
+              <p className="text-base dark:text-gray-300 leading-4 text-gray-600">Pending</p>
             </div>
             <div className="flex justify-between items-center w-full">
               <p className="text-base dark:text-white leading-4 text-gray-800">Order Status</p>
-              <p className="text-base dark:text-gray-300 leading-4 text-gray-600">order status</p>
+              <p className="text-base dark:text-gray-300 leading-4 text-gray-600">{order?.Order?.orderStatus}</p>
             </div>
           </div>
           <div className="flex justify-between items-center w-full">
             <p className="text-base dark:text-white font-semibold leading-4 text-gray-800">Total</p>
-            <p className="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600">total amount</p>
+            <p className="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600">{100 + order?.quantity * order?.Order?.totalAmount}</p>
           </div>
         </div>
         <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
@@ -100,20 +100,20 @@ const OrderDetail = () => {
           <div className="flex justify-center md:justify-start xl:flex-col flex-col md:space-x-6 lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-12 md:space-y-0 md:flex-row items-center md:items-start">
             <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4 xl:mt-8">
               <p className="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">Shipping Address</p>
-              <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600"></p>
+              <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">{order?.Order?.shippingAddress}</p>
             </div>
           </div>
           
-          {/* <form className="max-w-sm mx-auto py-8">
+          <form className="max-w-sm mx-auto py-8">
             <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Order Status</label>
-            {/* <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handleOrderStatus}> */}
-              {/* <option value="pending">Pending</option>
+           <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handleOrderStatus}> 
+               <option value="pending">Pending</option>
               <option value="delivered">delivered</option>
               <option value="cancelled">cancelled</option>
               <option value="onTheWay">onTheWay</option>
               <option value="preparation">preparation</option>
             </select>
-          </form> */} 
+          </form> 
           <form className="max-w-sm mx-auto py-4">
             <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Payment Status</label>
             <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
