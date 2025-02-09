@@ -63,13 +63,16 @@ const dataSlice = createSlice({
         setSingleOrder(state:InitialState,action:PayloadAction<SingleOrder[]>) {
             state.singleOrder = action.payload
         },
-        setOrderStatus(state:InitialState,action:PayloadAction<{id:string,status:string}>) {
-            
+        setUpdateOrderStatus(state:InitialState,action:PayloadAction<{id:string,status:string}>) {
+            const orderIndex = state?.singleOrder?.findIndex((order) => order?.id == action.payload.id);
+            if(orderIndex != -1) {
+                state.singleOrder[orderIndex].Order.orderStatus = action.payload.status
+            }
         }
     }
 })
 
-export const {setProduct , setOrder , setUser , setStatus , setSingleProduct , setDeleteProduct , setDeleteUser , setDeleteOrder , setCategory , setSingleOrder} = dataSlice.actions;
+export const {setProduct , setOrder , setUser , setStatus , setSingleProduct , setDeleteProduct , setDeleteUser , setDeleteOrder , setCategory , setSingleOrder , setUpdateOrderStatus} = dataSlice.actions;
 export default dataSlice.reducer;
 
 export function fetchProducts() {
@@ -264,13 +267,14 @@ export function addCategory(data:Category) {
     }
 }
 
-export function handleOrderStatus(id:string,status:string) {
+export function handleUpdateOrderStatus(id:string,status:string) {
     return async function handleOrderStatusThunk(dispatch:AppDispatch) {
         dispatch(setStatus(Status.LOADING));
         try {
-            const response = await APIAuthenticated.get(`/order/admin`);
+            const response = await APIAuthenticated.patch(`/order/admin/${id}`,{orderStatus : status});
             if(response.status == 200) {
-                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setStatus(Status.SUCCESS));
+                dispatch(setUpdateOrderStatus({id,status}))
             }
             else {
                 dispatch(setStatus(Status.ERROR))

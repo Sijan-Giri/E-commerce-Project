@@ -1,15 +1,15 @@
 import { useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../store/hook";
-import { ChangeEvent, useEffect } from "react";
-import { singleOrder } from "../store/dataSlice";
+import { ChangeEvent, useEffect, useState } from "react";
+import { handleUpdateOrderStatus, singleOrder } from "../store/dataSlice";
 
 const OrderDetail = () => {
 
     const {id} = useParams();
     const dispatch = useAppDispatch()
-
+    
     const {singleOrder:[order]} = useAppSelector((state) => state.data);
-    console.log(order)
+    const [orderStatus , setOrderStatus] = useState<string>(order?.Order?.orderStatus);
 
     useEffect(() => {
         if(id) {
@@ -18,8 +18,12 @@ const OrderDetail = () => {
     },[])
 
     const handleOrderStatus = (e:ChangeEvent<HTMLSelectElement>) => {
-        e.preventDefault();
-        
+      e.preventDefault();
+      setOrderStatus(e.target.value)
+        if(id) {
+          console.log(orderStatus)
+          dispatch(handleUpdateOrderStatus(id,orderStatus))
+        }        
     }
     
   return (  
