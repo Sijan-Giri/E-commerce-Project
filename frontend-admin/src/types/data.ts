@@ -74,7 +74,8 @@ export interface SingleOrder{
         shippingAddress : string,
         totalAmount : number,
         orderStatus : string,
-        createdAt : string
+        createdAt : string,
+        userId : string
     }
     
 }  

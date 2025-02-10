@@ -30,6 +30,11 @@ const checkoutSlice = createSlice({
         },
         setMyOrderDetails(state:OrderResponseData,action:PayloadAction<OrderDetails[]>){
             state.orderDetails = action.payload
+        },
+        setUpdateOrderStatus(state:OrderResponseData,action:PayloadAction<{status:string,orderId:string}>) {
+            const status = action.payload.status
+            const orderId = action.payload.orderId
+            state.myOrders.map((order => order.id))
         }
     }
 })
@@ -94,5 +99,11 @@ export function fetchMyOrderDetails(id:string) {
         } catch (error) {
             dispatch(setStatus(Status.ERROR))
         }
+    }
+}
+
+export function updateOrderStatusInStore(data:any) {
+    return async function updateOrderStatusInStoreThunk(dispatch:AppDispatch) {
+        
     }
 }

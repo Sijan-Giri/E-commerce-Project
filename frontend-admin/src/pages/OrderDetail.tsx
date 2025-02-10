@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../store/hook";
 import { ChangeEvent, useEffect, useState } from "react";
 import { handleUpdateOrderStatus, singleOrder } from "../store/dataSlice";
+import { socket } from "../App";
 
 const OrderDetail = () => {
 
@@ -21,8 +22,11 @@ const OrderDetail = () => {
       e.preventDefault();
       setOrderStatus(e.target.value)
         if(id) {
-          console.log(orderStatus)
-          dispatch(handleUpdateOrderStatus(id,orderStatus))
+          socket.emit("updateOrderStatus",{
+            status : orderStatus,
+            orderId : id,
+            userId : order?.Order?.userId
+          })
         }        
     }
     

@@ -4,7 +4,6 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
 import SignIn from './pages/Authentication/SignIn';
-import Calendar from './pages/Calendar';
 import Chart from './pages/Chart';
 import ECommerce from './pages/Dashboard/ECommerce';
 import FormElements from './pages/Form/FormElements';
@@ -19,6 +18,13 @@ import { Provider } from 'react-redux';
 import store from './store/store';
 import FormCategory from './pages/Form/FormCategory';
 import OrderDetail from './pages/OrderDetail';
+import {io} from "socket.io-client"
+
+export const socket = io("http://localhost:4000",{
+  auth : {
+    token : localStorage.getItem("token")
+  }
+})
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
