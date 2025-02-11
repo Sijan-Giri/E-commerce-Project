@@ -70,6 +70,7 @@ io.on("connection",async(socket) => {
     socket.on("updateOrderStatus",({status,orderId,userId}) => {
         const findUser = onlineUsers.find((user:any) => user.userId == userId);
         if(findUser) {
+            console.log(findUser)
             io.to(findUser.socketId).emit("statusUpdated",{
                 status,
                 orderId

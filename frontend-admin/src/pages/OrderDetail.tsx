@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../store/hook";
 import { ChangeEvent, useEffect, useState } from "react";
-import { handleUpdateOrderStatus, singleOrder } from "../store/dataSlice";
+import {  singleOrder } from "../store/dataSlice";
 import { socket } from "../App";
 
 const OrderDetail = () => {

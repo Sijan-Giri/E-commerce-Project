@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Status } from "../types/types";
-import { ItemDetailsResponse, MyOrdersData, OrderData, OrderDetails, OrderResponseData } from "../types/checkoutTypes";
+import { ItemDetailsResponse, MyOrdersData, OrderData, OrderDetails, OrderResponseData, OrderStatus } from "../types/checkoutTypes";
 import { AppDispatch } from "./store";
 import { AuthApi } from "../http";
 
@@ -31,15 +31,16 @@ const checkoutSlice = createSlice({
         setMyOrderDetails(state:OrderResponseData,action:PayloadAction<OrderDetails[]>){
             state.orderDetails = action.payload
         },
-        setUpdateOrderStatus(state:OrderResponseData,action:PayloadAction<{status:string,orderId:string}>) {
+        setUpdateOrderStatus(state:OrderResponseData,action:PayloadAction<{status:OrderStatus,orderId:string}>) {
             const status = action.payload.status
             const orderId = action.payload.orderId
-            state.myOrders.map((order => order.id))
+            const updatedOrder = state.myOrders.map(order => order.id == orderId ? {...order,orderStatus:status} : order)
+            state.myOrders = updatedOrder
         }
     }
 })
 
-export const {setStatus , setItems , setKhaltiUrl , setMyOrders , setMyOrderDetails} = checkoutSlice.actions;
+export const {setStatus , setItems , setKhaltiUrl , setMyOrders , setMyOrderDetails , setUpdateOrderStatus} = checkoutSlice.actions;
 export default checkoutSlice.reducer;
 
 export function orderItem(data : OrderData) {
@@ -104,6 +105,6 @@ export function fetchMyOrderDetails(id:string) {
 
 export function updateOrderStatusInStore(data:any) {
     return async function updateOrderStatusInStoreThunk(dispatch:AppDispatch) {
-        
+        dispatch(setUpdateOrderStatus(data))
     }
 }
